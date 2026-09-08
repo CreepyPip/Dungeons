@@ -65,18 +65,26 @@ var inGame = true
 while(inGame){
 	clearScreen()
 	
-	var yh = height-y
-	var yl: Int = 0
-	if (yh > 20) {
-		yh = 20
+	var xh = x-10
+	var xl = x+10
+	var yl = y-10
+	var yr = y+10
+
+	while (xh < 0) {
+		xh += 1
+	}
+	while (xl > height) {
+		xl -= 1
+	}
+	while (yl < 0) {
+		yl += 1
+	}
+	while (yr > width) {
+		yr -= 1
 	}
 	
-	if (yl-5 > 0) {
-		yl -= 5
-	}
-	
-	for i in 0..<height {
-		for j in 0..<width {
+	for i in xh..<xl {
+		for j in yl..<yr {
 			print(A[i][j], terminator: " ")
 		}
 		print()
@@ -92,25 +100,25 @@ while(inGame){
 		inGame = false
 	}
 	
-	if (input == 119) && (A[x-1][y] != "#" || A[x-1][y] != "?") {
+	if (input == 119) && (A[x-1][y] != "#" && A[x-1][y] != "?") {
 		A[x][y] = " "
 		x = x - 1
 		A[x][y] = "@"
 	}
 	
-	if (input == 97) && (A[x][y-1] != "#" || A[x][y-1] != "?") {
+	if (input == 97) && (A[x][y-1] != "#" && A[x][y-1] != "?") {
 		A[x][y] = " "
 		y = y - 1
 		A[x][y] = "@"
 	}
 	
-	if (input == 115) && (A[x+1][y] != "#" || A[x+1][y] != "?") && (A[x+1][y] != "S") {
+	if (input == 115) && (A[x+1][y] != "#" && A[x+1][y] != "?") && (A[x+1][y] != "S") {
 		A[x][y] = " "
 		x = x + 1
 		A[x][y] = "@"
 	}
 	
-	if (input == 100) && (A[x][y+1] != "#" || A[x][y+1] != "?") {
+	if (input == 100) && (A[x][y+1] != "#" && A[x][y+1] != "?") {
 		A[x][y] = " "
 		y = y + 1
 		A[x][y] = "@"
