@@ -14,11 +14,13 @@
 
 class Inventory {
 	std::vector<std::string> Bag;
+	std::vector<std::string> Chest;
 	
 public:
 	Inventory();
 	void InBag(std::string object);
 	std::string* OutBag();
+	//void InChest(std::string* objects);
 };
 
 #endif /* inventory_hpp */

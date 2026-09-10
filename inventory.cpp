@@ -14,3 +14,5 @@ void Inventory::InBag(std::string object) {
 std::string* Inventory::OutBag() {
 	return Bag.data();
 };
+
+

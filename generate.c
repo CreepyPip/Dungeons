@@ -133,7 +133,7 @@ char* generateMaze(int width, int height, int density) {
 				 A[index + width] == ' ' ||  
 				 A[index + width + 2] == ' ' ||
 				 A[index + width + 1] == ' ') && 
-				rand() % 100 < 3) {
+				rand() % 100 < 1) {
 				A[index] = '?';
 			}
 		}

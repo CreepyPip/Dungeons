@@ -8,22 +8,6 @@
 import Foundation
 import Darwin
 
-var originalTermios = termios()
-
-func enableRawMode() {
-	tcgetattr(STDIN_FILENO, &originalTermios)
-	var newTermios = originalTermios
-	
-	newTermios.c_lflag &= ~UInt(ICANON)
-	newTermios.c_lflag &= ~UInt(ECHO)
-	
-	tcsetattr(STDIN_FILENO, TCSANOW, &newTermios)
-}
-
-func disableRawMode() {
-	tcsetattr(STDIN_FILENO, TCSANOW, &originalTermios)
-}
-
 randomActive()
 let height = 200
 let width = 100
@@ -61,6 +45,7 @@ for i in 0..<height {
 A[x][y] = "@"
 enableRawMode()
 var inGame = true
+var outputItems: [String] = []
 
 while(inGame){
 	clearScreen()
@@ -89,6 +74,16 @@ while(inGame){
 		}
 		print()
 	}
+	
+	if !outputItems.isEmpty {
+		for i in 0..<outputItems.count {
+			print(outputItems[i])
+			if (outputItems[i] != "Пустой") {
+				// Тут будет закидываться в сумку
+			}
+		}
+	}
+	outputItems.removeAll()
 	
 	var input: Int32
 	
@@ -123,20 +118,25 @@ while(inGame){
 		y = y + 1
 		A[x][y] = "@"
 	}
+	
+	
 	if (input == 101) && (A[x][y+1] == "?" || A[x][y-1] == "?" || A[x+1][y] == "?" || A[x-1][y] == "?") {
 		if A[x][y+1] == "?" {
 			A[x][y+1] = " "
+			outputItems.append(randomItems())
 		}
 		if A[x][y-1] == "?" {
 			A[x][y-1] = " "
+			outputItems.append(randomItems())
 		}
 		if A[x+1][y] == "?" {
 			A[x+1][y] = " "
+			outputItems.append(randomItems())
 		}
 		if A[x-1][y] == "?" {
 			A[x-1][y] = " "
+			outputItems.append(randomItems())
 		}
-		// новый предмет
 	}
 	
 }

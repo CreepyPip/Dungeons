@@ -15,3 +15,8 @@ void randomActive() {
 void clearScreen() {
 	system("clear");
 };
+
+char* items(int num) {
+	
+	return NULL;
+};
