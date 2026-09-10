@@ -20,7 +20,8 @@ public:
 	Inventory();
 	void InBag(std::string object);
 	std::string OutBag(int index);
-	//void InChest(std::string* objects);
+	void FreeBag();
+	void InChest(std::string objects);
 	int GetCount() const;
 };
 

@@ -12,9 +12,10 @@
 
 @interface InventoryBridge : NSObject
 
-- (void)InBag:(NSString *) item;
-- (NSInteger)GetCount;
+- (void)InBag:(NSString*) item;
 - (NSArray<NSString *> *)OutBag;
+- (void)FreeBag;
+- (void)InChest:(NSString*) item;
 
 @end
 

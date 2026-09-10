@@ -17,11 +17,19 @@
 	delete _cppInventory;
 }
 
-- (void)InBag:(NSString *)item {
+- (void)InBag:(NSString*)item {
 	std::string cppString([item UTF8String]);
 	_cppInventory->InBag(cppString);
 }
 
+- (void)InChest:(NSString*)item {
+	std::string cppString([item UTF8String]);
+	_cppInventory->InChest(cppString);
+}
+
+- (void)FreeBag {
+	_cppInventory->FreeBag();
+}
 
 - (NSArray<NSString *> *)OutBag {
 	NSMutableArray *BagArr = [NSMutableArray array];

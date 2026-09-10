@@ -145,12 +145,15 @@ while(inGame){
 print("Вы дошли до конца")
 
 print("Вы собрали за забег:")
-let arrBag = inv.outBag()
-let arrBagNoNil: [String] = arrBag!
-if !arrBagNoNil.isEmpty {
-	for i in 0..<arrBagNoNil.count {
-		print(arrBagNoNil[i])
+let arrBag = inv.outBag()!
+if !arrBag.isEmpty {
+	for i in 0..<arrBag.count {
+		inv.inChest(arrBag[i])
+		print(arrBag[i])
 	}
 }
+inv.freeBag()
+
 
 disableRawMode()
+freeMaze(dungeon)

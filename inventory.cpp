@@ -14,9 +14,20 @@ void Inventory::InBag(std::string object) {
 };
 
 std::string Inventory::OutBag(int index) {
-	return Bag[index];
+	if (index <= GetCount()){
+		return Bag[index];
+	}
+	return "";
 };
 
 int Inventory::GetCount() const {
 	return (int)Bag.size();
+};
+
+void Inventory::FreeBag() {
+	Bag.clear();
 }
+
+void Inventory::InChest(std::string object) {
+	Chest.push_back(object);
+};
