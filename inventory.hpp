@@ -19,8 +19,9 @@ class Inventory {
 public:
 	Inventory();
 	void InBag(std::string object);
-	std::string* OutBag();
+	std::string OutBag(int index);
 	//void InChest(std::string* objects);
+	int GetCount() const;
 };
 
 #endif /* inventory_hpp */

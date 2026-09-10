@@ -12,6 +12,7 @@
 		03AA9BD3304FC13E00518614 /* inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03AA9BD1304FC13E00518614 /* inventory.cpp */; };
 		03AA9BD6304FD86500518614 /* cFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AA9BD5304FD86500518614 /* cFunctions.c */; };
 		03AA9BD83052761900518614 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AA9BD73052761900518614 /* Functions.swift */; };
+		03AA9BDC305281E500518614 /* ObjInventory.mm in Sources */ = {isa = PBXBuildFile; fileRef = 03AA9BDB305281E500518614 /* ObjInventory.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,8 @@
 		03AA9BD4304FD86500518614 /* cFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cFunctions.h; sourceTree = "<group>"; };
 		03AA9BD5304FD86500518614 /* cFunctions.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cFunctions.c; sourceTree = "<group>"; };
 		03AA9BD73052761900518614 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		03AA9BDB305281E500518614 /* ObjInventory.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ObjInventory.mm; sourceTree = "<group>"; };
+		03AA9BDD305281FC00518614 /* ObjInventory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjInventory.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +56,7 @@
 		03AA9BBA304FC08700518614 = {
 			isa = PBXGroup;
 			children = (
+				03AA9BDD305281FC00518614 /* ObjInventory.h */,
 				03AA9BD73052761900518614 /* Functions.swift */,
 				03AA9BD4304FD86500518614 /* cFunctions.h */,
 				03AA9BD5304FD86500518614 /* cFunctions.c */,
@@ -63,6 +67,7 @@
 				03AA9BC5304FC08700518614 /* Dungeons */,
 				03AA9BC4304FC08700518614 /* Products */,
 				03AA9BCD304FC0C300518614 /* Dungeons-Bridging-Header.h */,
+				03AA9BDB305281E500518614 /* ObjInventory.mm */,
 			);
 			sourceTree = "<group>";
 		};
@@ -141,6 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03AA9BDC305281E500518614 /* ObjInventory.mm in Sources */,
 				03AA9BCF304FC0C400518614 /* generate.c in Sources */,
 				03AA9BD6304FD86500518614 /* cFunctions.c in Sources */,
 				03AA9BC7304FC08700518614 /* main.swift in Sources */,

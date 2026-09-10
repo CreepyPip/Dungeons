@@ -46,6 +46,7 @@ A[x][y] = "@"
 enableRawMode()
 var inGame = true
 var outputItems: [String] = []
+let inv = InventoryBridge()
 
 while(inGame){
 	clearScreen()
@@ -79,7 +80,7 @@ while(inGame){
 		for i in 0..<outputItems.count {
 			print(outputItems[i])
 			if (outputItems[i] != "Пустой") {
-				// Тут будет закидываться в сумку
+				inv.inBag(outputItems[i])
 			}
 		}
 	}
@@ -142,4 +143,14 @@ while(inGame){
 }
 
 print("Вы дошли до конца")
+
+print("Вы собрали за забег:")
+let arrBag = inv.outBag()
+let arrBagNoNil: [String] = arrBag!
+if !arrBagNoNil.isEmpty {
+	for i in 0..<arrBagNoNil.count {
+		print(arrBagNoNil[i])
+	}
+}
+
 disableRawMode()
