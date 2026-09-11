@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <fstream>
 
 class Inventory {
 	std::vector<std::string> Bag;
@@ -21,8 +22,14 @@ public:
 	void InBag(std::string object);
 	std::string OutBag(int index);
 	void FreeBag();
+	void FreeChest();
 	void InChest(std::string objects);
+	std::string OutChest(int index);
 	int GetCount() const;
+	int GetCountChest() const;
+	void InFile();
+	void FromFile();
+	void CreateFile();
 };
 
 #endif /* inventory_hpp */

@@ -15,7 +15,12 @@
 - (void)InBag:(NSString*) item;
 - (NSArray<NSString *> *)OutBag;
 - (void)FreeBag;
+- (void)FreeChest;
 - (void)InChest:(NSString*) item;
+- (NSArray<NSString *> *)OutChest;
+- (void)CreateFile;
+- (void)InFile;
+- (void)FromFile;
 
 @end
 

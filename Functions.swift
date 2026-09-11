@@ -55,3 +55,39 @@ func randomItems() -> String {
 	
 	return "Пустой"
 }
+
+func freeFile() {
+	let nothing = ""
+	
+	let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+		.appendingPathComponent("PlayerChest.sosal")
+	
+	try! nothing.write(to: url, atomically: true, encoding: .utf8)
+}
+
+func inFile(_ arr: [String]) {
+	let text = arr.joined(separator: "\n")
+	
+	let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+		.appendingPathComponent("PlayerChest.sosal")
+	
+	let fileHandle = try! FileHandle(forWritingTo: url)
+	defer { fileHandle.closeFile() }
+	fileHandle.seekToEndOfFile()
+	fileHandle.write(text.data(using: .utf8)!)
+	
+	
+}
+
+func fromFile() -> [String] {
+	var arr: [String] = []
+	if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+		let fileURL = dir.appendingPathComponent("PlayerChest.sosal")
+		
+		if let savedText = try? String(contentsOf: fileURL, encoding: .utf8) {
+			arr = savedText.components(separatedBy: "\n")
+		}
+	}
+	
+	return arr
+}

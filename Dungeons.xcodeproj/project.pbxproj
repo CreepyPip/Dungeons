@@ -40,6 +40,8 @@
 		03AA9BD73052761900518614 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		03AA9BDB305281E500518614 /* ObjInventory.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ObjInventory.mm; sourceTree = "<group>"; };
 		03AA9BDD305281FC00518614 /* ObjInventory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjInventory.h; sourceTree = "<group>"; };
+		03AA9BDE3053069500518614 /* Dungeons.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dungeons.entitlements; sourceTree = "<group>"; };
+		03AA9BDF3053942400518614 /* DungeonsRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DungeonsRelease.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,8 @@
 		03AA9BC5304FC08700518614 /* Dungeons */ = {
 			isa = PBXGroup;
 			children = (
+				03AA9BDF3053942400518614 /* DungeonsRelease.entitlements */,
+				03AA9BDE3053069500518614 /* Dungeons.entitlements */,
 				03AA9BC6304FC08700518614 /* main.swift */,
 			);
 			path = Dungeons;
@@ -275,12 +279,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Dungeons/Dungeons.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Dungeons-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -292,12 +298,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Dungeons/DungeonsRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Dungeons-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

@@ -12,19 +12,50 @@ randomActive()
 let height = 200
 let width = 100
 var game = true
+var game2 = false
 
 while(game) {
+	let inv = InventoryBridge()
+	inv.createFile()
+	
 	print("1. Начать игру")
-	print("2. Продолжить (в разработке)")
+	print("2. Продолжить")
 	print("3. Закрыть игру")
+	print("4. Открыть свой сундук")
 	
 	let answer = readLine()!
 	
-	if (answer != "1" && answer != "2") {
-		game = false
+	if (answer == "1") {
+		freeFile()
+		game2 = true
 	}
 	
-	while(game) {
+	if (answer == "2") {
+		inv.freeChest()
+		let arrFromFile = fromFile()
+		
+		for i in 0..<arrFromFile.count {
+			inv.inChest(arrFromFile[i])
+		}
+		game2 = true
+	}
+	
+	if (answer == "4") {
+		inv.freeChest()
+		let arrFromFile = fromFile()
+
+		print("У вас в сундуке:")
+		for i in 0..<arrFromFile.count {
+			print(arrFromFile[i])
+		}
+	}
+	
+	if (answer != "1" && answer != "2" && answer != "4") {
+		game = false
+		break
+	}
+	
+	while(game2) {
 		let dungeon = generateMaze(Int32(width), Int32(height), 30)
 		
 		var A: [[String]] = []
@@ -60,7 +91,6 @@ while(game) {
 		enableRawMode()
 		var inGame = true
 		var outputItems: [String] = []
-		let inv = InventoryBridge()
 		
 		while(inGame){
 			clearScreen()
@@ -160,6 +190,7 @@ while(game) {
 		
 		print("Вы собрали за забег:")
 		let arrBag = inv.outBag()!
+		inFile(arrBag)
 		if !arrBag.isEmpty {
 			for i in 0..<arrBag.count {
 				inv.inChest(arrBag[i])
@@ -167,9 +198,11 @@ while(game) {
 			}
 		}
 		inv.freeBag()
+		inv.inFile()
 		
 		
 		disableRawMode()
 		freeMaze(dungeon)
+		game2 = false
 	}
 }

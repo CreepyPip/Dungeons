@@ -31,6 +31,10 @@
 	_cppInventory->FreeBag();
 }
 
+- (void)FreeChest {
+	_cppInventory->FreeChest();
+}
+
 - (NSArray<NSString *> *)OutBag {
 	NSMutableArray *BagArr = [NSMutableArray array];
 
@@ -42,5 +46,27 @@
 	
 	return BagArr;
 }
+
+- (NSArray<NSString *> *)OutChest {
+	NSMutableArray *ChestArr = [NSMutableArray array];
+	
+	for (int i = 0; i < _cppInventory->GetCountChest(); i++){
+		std::string item = _cppInventory->OutChest(i);
+		NSString *nsItem = [NSString stringWithUTF8String:item.c_str()];
+		[ChestArr addObject:nsItem];
+	}
+	
+	return ChestArr;
+}
+
+- (void)CreateFile{
+	_cppInventory->CreateFile();
+};
+- (void)InFile{
+	_cppInventory->InFile();
+};
+- (void)FromFile{
+	_cppInventory->FromFile();
+};
 
 @end
