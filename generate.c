@@ -7,9 +7,6 @@
 
 #include "generate.h"
 
-
-
-
 char* generateMaze(int width, int height, int density) {
 	
 	char* A = malloc(width * height * sizeof(char));
@@ -133,7 +130,7 @@ char* generateMaze(int width, int height, int density) {
 				 A[index + width] == ' ' ||  
 				 A[index + width + 2] == ' ' ||
 				 A[index + width + 1] == ' ') && 
-				rand() % 100 < 1) {
+				rand() % 300 < 1) {
 				A[index] = '?';
 			}
 		}

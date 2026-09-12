@@ -8,16 +8,21 @@
 import Foundation
 import Darwin
 
+// Задаётся возможность использовать rand()
 randomActive()
+// Переменные размеров карты(возможно добавлю сложность)
 let height = 200
 let width = 100
+// булевые для работы игры
 var game = true
 var game2 = false
 
+// Цикл работы UX
 while(game) {
+	// Создаётся объект
 	let inv = InventoryBridge()
-	inv.createFile()
 	
+	// Действия пользователей
 	print("1. Начать игру")
 	print("2. Продолжить")
 	print("3. Закрыть игру")
@@ -25,24 +30,27 @@ while(game) {
 	
 	let answer = readLine()!
 	
+	// Работа при новой игре
 	if (answer == "1") {
-		freeFile()
+		freeFile() // Очистка файла
 		game2 = true
 	}
 	
+	// Работа при продолжении игры
 	if (answer == "2") {
-		inv.freeChest()
-		let arrFromFile = fromFile()
+		inv.freeChest() // Очестка сундука, чтобы не было повторений
+		let arrFromFile = fromFile() // Запись из файла в переменную
 		
+		// Запись в сундук
 		for i in 0..<arrFromFile.count {
 			inv.inChest(arrFromFile[i])
 		}
 		game2 = true
 	}
 	
+	// Проверка того, что есть в сундуке
 	if (answer == "4") {
-		inv.freeChest()
-		let arrFromFile = fromFile()
+		let arrFromFile = fromFile() // Проверяем из файла
 
 		print("У вас в сундуке:")
 		for i in 0..<arrFromFile.count {
@@ -50,18 +58,23 @@ while(game) {
 		}
 	}
 	
+	// Закрытие игры (чтобы работало не только на 3)
 	if (answer != "1" && answer != "2" && answer != "4") {
 		game = false
 		break
 	}
 	
-	while(game2) {
+	if (game2) {
+		// Генерируем подземелье
 		let dungeon = generateMaze(Int32(width), Int32(height), 30)
 		
+		// Массив для удобного хранения подземелья
 		var A: [[String]] = []
+		// Координаты игрока
 		var x = height - 2
 		var y = (width/2)-1
 		
+		// Перезаписываем
 		for i in 0..<height {
 			var microArr: [String] = []
 			for j in 0..<width {
@@ -87,19 +100,23 @@ while(game) {
 			A.append(microArr)
 		}
 		
+		// Местонахождение игрока
 		A[x][y] = "@"
-		enableRawMode()
-		var inGame = true
-		var outputItems: [String] = []
+		enableRawMode() // Ввод "без подтверждения"
+		var inGame = true // булевая для отображения поля
+		var outputItems: [String] = [] // Массив для отображения собранного
+		var itemsCount = 0 // переменная для цикла отображения собранного
 		
 		while(inGame){
-			clearScreen()
+			clearScreen() // Чистим экран при каждой иттерации
 			
+			// Переменные для границ экрана
 			var xh = x-10
 			var xl = x+10
 			var yl = y-10
 			var yr = y+10
 			
+			// Проверка границ
 			while (xh < 0) {
 				xh += 1
 			}
@@ -113,6 +130,7 @@ while(game) {
 				yr -= 1
 			}
 			
+			// Вывод на экран вида игрока
 			for i in xh..<xl {
 				for j in yl..<yr {
 					print(A[i][j], terminator: " ")
@@ -120,16 +138,27 @@ while(game) {
 				print()
 			}
 			
+			// Отображение собранного из сунуков
 			if !outputItems.isEmpty {
 				for i in 0..<outputItems.count {
 					print(outputItems[i])
+				}
+				itemsCount += 1
+			}
+			
+			// Склаываем в сумку и чистим экран
+			if (itemsCount == 3) {
+				for i in 0..<outputItems.count {
 					if (outputItems[i] != "Пустой") {
 						inv.inBag(outputItems[i])
 					}
 				}
+				itemsCount = 0
+				outputItems.removeAll()
 			}
-			outputItems.removeAll()
 			
+			
+			// Ввод пользователя
 			var input: Int32
 			
 			repeat {
@@ -164,7 +193,7 @@ while(game) {
 				A[x][y] = "@"
 			}
 			
-			
+			// Сундуки
 			if (input == 101) && (A[x][y+1] == "?" || A[x][y-1] == "?" || A[x+1][y] == "?" || A[x-1][y] == "?") {
 				if A[x][y+1] == "?" {
 					A[x][y+1] = " "
@@ -182,12 +211,14 @@ while(game) {
 					A[x-1][y] = " "
 					outputItems.append(randomItems())
 				}
+				itemsCount = 0
 			}
 			
 		}
 		
 		print("Вы дошли до конца")
 		
+		// Вывод собранного на экран, запись в сундук игрока и очистка сумки
 		print("Вы собрали за забег:")
 		let arrBag = inv.outBag()!
 		inFile(arrBag)
@@ -198,10 +229,11 @@ while(game) {
 			}
 		}
 		inv.freeBag()
-		inv.inFile()
 		
 		
+		// Отключение режима "без проверки"
 		disableRawMode()
+		// Очистка памяти
 		freeMaze(dungeon)
 		game2 = false
 	}

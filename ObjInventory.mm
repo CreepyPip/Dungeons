@@ -1,3 +1,5 @@
+// Мост между C++ и Swift
+
 #import "ObjInventory.h"
 #import "inventory.hpp"
 
@@ -58,15 +60,5 @@
 	
 	return ChestArr;
 }
-
-- (void)CreateFile{
-	_cppInventory->CreateFile();
-};
-- (void)InFile{
-	_cppInventory->InFile();
-};
-- (void)FromFile{
-	_cppInventory->FromFile();
-};
 
 @end

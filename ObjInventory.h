@@ -4,6 +4,7 @@
 //
 //  Created by Семён Зайцев on 10.09.2026.
 //
+//  Header моста между C++ и Swift
 
 #ifndef ObjInventory_h
 #define ObjInventory_h
@@ -18,9 +19,6 @@
 - (void)FreeChest;
 - (void)InChest:(NSString*) item;
 - (NSArray<NSString *> *)OutChest;
-- (void)CreateFile;
-- (void)InFile;
-- (void)FromFile;
 
 @end
 

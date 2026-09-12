@@ -7,16 +7,14 @@
 
 #include "cFunctions.h"
 
+// Функция для возможности получать рандомные числа
 void randomActive() {
 	srand(time(NULL));
 };
 
 
+// Функция очистки экрана
 void clearScreen() {
 	system("clear");
 };
 
-char* items(int num) {
-	
-	return NULL;
-};

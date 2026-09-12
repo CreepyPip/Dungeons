@@ -46,27 +46,3 @@ std::string Inventory::OutChest(int index) {
 	}
 	return "";
 };
-
-void Inventory::CreateFile(){
-	std::fstream File("~/Library/Application Support/Dungeons/PlayerChest.sosal");
-	File.close();
-};
-
-void Inventory::InFile(){
-	std::ofstream File("~/Library/Application Support/Dungeons/PlayerChest.sosal");
-	for (int i = 0; i < GetCount(); i++) {
-		File << Chest[i] << std::endl;
-	}
-	File.close();
-};
-
-void Inventory::FromFile(){
-	std::ifstream File("~/Library/Application Support/Dungeons/PlayerChest.sosal");
-	std::string test;
-	
-	while (std::getline(File, test)) {
-		Chest.push_back(test);
-	}
-	
-	File.close();
-};

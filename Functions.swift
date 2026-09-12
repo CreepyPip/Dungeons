@@ -7,8 +7,10 @@
 
 import Foundation
 
+// Переменная для функций работы терминала
 var originalTermios = termios()
 
+// Функция для ввода в терминал "без подтверждения"
 func enableRawMode() {
 	tcgetattr(STDIN_FILENO, &originalTermios)
 	var newTermios = originalTermios
@@ -19,10 +21,12 @@ func enableRawMode() {
 	tcsetattr(STDIN_FILENO, TCSANOW, &newTermios)
 }
 
+// Функция для отключения ввода в терминал "без подтверждения"
 func disableRawMode() {
 	tcsetattr(STDIN_FILENO, TCSANOW, &originalTermios)
 }
 
+// Функция получения предметов из сундуков
 func randomItems() -> String {
 	let item = Int.random(in: 0..<100)
 	if (item >= 0 && item <= 15) {
@@ -46,16 +50,20 @@ func randomItems() -> String {
 	if (item >= 71 && item <= 75) {
 		return "Почти новый меч"
 	}
-	if (item >= 76 && item <= 80) {
+	if (item >= 76 && item <= 79) {
 		return "Почти новая броня"
 	}
-	if (item >= 81 && item <= 95) {
+	if (item >= 80 && item <= 94) {
 		return "Мусор"
+	}
+	if (item == 95) {
+		return "Золото"
 	}
 	
 	return "Пустой"
 }
 
+// Очистка файла
 func freeFile() {
 	let nothing = ""
 	
@@ -65,6 +73,7 @@ func freeFile() {
 	try! nothing.write(to: url, atomically: true, encoding: .utf8)
 }
 
+// Запись в файл
 func inFile(_ arr: [String]) {
 	let text = arr.joined(separator: "\n")
 	
@@ -79,6 +88,7 @@ func inFile(_ arr: [String]) {
 	
 }
 
+// Чтение файла
 func fromFile() -> [String] {
 	var arr: [String] = []
 	if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
