@@ -9,5 +9,8 @@
 #define Enemies_h
 
 #include <stdio.h>
+#include "generate.h"
+
+char* generateDungeon(int width, int height, int density);
 
 #endif /* Enemies_h */

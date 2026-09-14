@@ -68,7 +68,7 @@ while(game) {
 	
 	if (game2) {
 		// Генерируем подземелье
-		let dungeon = generateMaze(Int32(width), Int32(height), 30)
+		let dungeon = generateDungeon(Int32(width), Int32(height), 30)
 		
 		// Массив для удобного хранения подземелья
 		var A: [[String]] = []
@@ -97,12 +97,13 @@ while(game) {
 				if Int(exactly: pretrans)! == 63 {
 					microArr.append("?")
 				}
+				if Int(exactly: pretrans)! == 38 {
+					microArr.append("&")
+				}
 			}
 			
 			A.append(microArr)
 		}
-		
-		A = arrangementEnemies(A)
 		
 		// Местонахождение игрока
 		A[x][y] = "@"
