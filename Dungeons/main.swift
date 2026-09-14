@@ -64,6 +64,8 @@ while(game) {
 		break
 	}
 	
+	var exit = false 
+	
 	if (game2) {
 		// Генерируем подземелье
 		let dungeon = generateMaze(Int32(width), Int32(height), 30)
@@ -100,6 +102,8 @@ while(game) {
 			A.append(microArr)
 		}
 		
+		A = arrangementEnemies(A)
+		
 		// Местонахождение игрока
 		A[x][y] = "@"
 		enableRawMode() // Ввод "без подтверждения"
@@ -110,33 +114,7 @@ while(game) {
 		while(inGame){
 			clearScreen() // Чистим экран при каждой иттерации
 			
-			// Переменные для границ экрана
-			var xh = x-10
-			var xl = x+10
-			var yl = y-10
-			var yr = y+10
-			
-			// Проверка границ
-			while (xh < 0) {
-				xh += 1
-			}
-			while (xl > height) {
-				xl -= 1
-			}
-			while (yl < 0) {
-				yl += 1
-			}
-			while (yr > width) {
-				yr -= 1
-			}
-			
-			// Вывод на экран вида игрока
-			for i in xh..<xl {
-				for j in yl..<yr {
-					print(A[i][j], terminator: " ")
-				}
-				print()
-			}
+			view(A, x, y)
 			
 			// Отображение собранного из сунуков
 			if !outputItems.isEmpty {
@@ -166,6 +144,7 @@ while(game) {
 			} while (input != 119 && input != 97 && input != 115 && input != 100 && input != 101)
 			
 			if (input == 119) && (A[x-1][y] == "E") {
+				exit = true
 				inGame = false
 			}
 			
@@ -214,23 +193,25 @@ while(game) {
 				itemsCount = 0
 			}
 			
+			ifEnemy(A, x, y)
+			
 		}
-		
-		print("Вы дошли до конца")
-		
-		// Вывод собранного на экран, запись в сундук игрока и очистка сумки
-		print("Вы собрали за забег:")
-		let arrBag = inv.outBag()!
-		inFile(arrBag)
-		if !arrBag.isEmpty {
-			for i in 0..<arrBag.count {
-				inv.inChest(arrBag[i])
-				print(arrBag[i])
+		clearScreen()
+		if(exit){
+			print("Вы дошли до конца")
+			// Вывод собранного на экран, запись в сундук игрока и очистка сумки
+			print("Вы собрали за забег:")
+			let arrBag = inv.outBag()!
+			inFile(arrBag)
+			if !arrBag.isEmpty {
+				for i in 0..<arrBag.count {
+					inv.inChest(arrBag[i])
+					print(arrBag[i])
+				}
 			}
 		}
+		
 		inv.freeBag()
-		
-		
 		// Отключение режима "без проверки"
 		disableRawMode()
 		// Очистка памяти

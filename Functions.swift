@@ -67,7 +67,7 @@ func randomItems() -> String {
 func freeFile() {
 	let nothing = ""
 	
-	let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+	let url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
 		.appendingPathComponent("PlayerChest.sosal")
 	
 	try! nothing.write(to: url, atomically: true, encoding: .utf8)
@@ -75,9 +75,11 @@ func freeFile() {
 
 // Запись в файл
 func inFile(_ arr: [String]) {
-	let text = arr.joined(separator: "\n")
+	var arra = arr
+	arra.append("")
+	let text = arra.joined(separator: "\n")
 	
-	let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+	let url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
 		.appendingPathComponent("PlayerChest.sosal")
 	
 	let fileHandle = try! FileHandle(forWritingTo: url)
@@ -91,7 +93,7 @@ func inFile(_ arr: [String]) {
 // Чтение файла
 func fromFile() -> [String] {
 	var arr: [String] = []
-	if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+	if let dir = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask).first {
 		let fileURL = dir.appendingPathComponent("PlayerChest.sosal")
 		
 		if let savedText = try? String(contentsOf: fileURL, encoding: .utf8) {
@@ -100,4 +102,34 @@ func fromFile() -> [String] {
 	}
 	
 	return arr
+}
+
+func view(_ A: [[String]],_ x: Int,_ y: Int) {
+	// Переменные для границ экрана
+	var xh = x-10
+	var xl = x+10
+	var yl = y-10
+	var yr = y+10
+	
+	// Проверка границ
+	while (xh < 0) {
+		xh += 1
+	}
+	while (xl > 200) {
+		xl -= 1
+	}
+	while (yl < 0) {
+		yl += 1
+	}
+	while (yr > 100) {
+		yr -= 1
+	}
+	
+	// Вывод на экран вида игрока
+	for i in xh..<xl {
+		for j in yl..<yr {
+			print(A[i][j], terminator: " ")
+		}
+		print()
+	}
 }
