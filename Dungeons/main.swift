@@ -149,25 +149,25 @@ while(game) {
 				inGame = false
 			}
 			
-			if (input == 119) && (A[x-1][y] != "#" && A[x-1][y] != "?") {
+			if (input == 119) && (A[x-1][y] == " ") {
 				A[x][y] = " "
 				x = x - 1
 				A[x][y] = "@"
 			}
 			
-			if (input == 97) && (A[x][y-1] != "#" && A[x][y-1] != "?") {
+			if (input == 97) && (A[x][y-1] == " ") {
 				A[x][y] = " "
 				y = y - 1
 				A[x][y] = "@"
 			}
 			
-			if (input == 115) && (A[x+1][y] != "#" && A[x+1][y] != "?") && (A[x+1][y] != "S") {
+			if (input == 115) && (A[x+1][y] == " ") {
 				A[x][y] = " "
 				x = x + 1
 				A[x][y] = "@"
 			}
 			
-			if (input == 100) && (A[x][y+1] != "#" && A[x][y+1] != "?") {
+			if (input == 100) && (A[x][y+1] == " ") {
 				A[x][y] = " "
 				y = y + 1
 				A[x][y] = "@"
@@ -194,7 +194,7 @@ while(game) {
 				itemsCount = 0
 			}
 			
-			ifEnemy(A, x, y)
+			A = ifEnemy(A, x, y)
 			
 		}
 		clearScreen()
