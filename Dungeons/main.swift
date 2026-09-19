@@ -69,6 +69,7 @@ while(game) {
 	if (game2) {
 		// Генерируем подземелье
 		let dungeon = generateDungeon(Int32(width), Int32(height), 30)
+		let fight = inFight()
 		
 		// Массив для удобного хранения подземелья
 		var A: [[String]] = []
@@ -143,6 +144,21 @@ while(game) {
 			repeat {
 				input = getchar()
 			} while (input != 119 && input != 97 && input != 115 && input != 100 && input != 101)
+			
+			if (input == 119 && A[x-1][y] == "&") || (input == 97 && A[x][y-1] == "&") || (input == 115 && A[x+1][y] == "&") || (input == 100 && A[x][y+1] == "&") {
+				disableRawMode()
+				let ff = fight.fighting()
+				enableRawMode()
+				if ff == false {
+					inGame = false
+				} else {
+					A[x+1][y] = " "
+					A[x-1][y] = " "
+					A[x][y+1] = " "
+					A[x][y-1] = " "
+					view(A, x, y)
+				}
+			}
 			
 			if (input == 119) && (A[x-1][y] == "E") {
 				exit = true

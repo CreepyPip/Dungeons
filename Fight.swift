@@ -9,26 +9,31 @@ import Foundation
 
 
 class inFight {
-	var hpPlayer = 100
+	private var hpPlayer = 100
 	
 	init() {}
 	
 	func fighting() -> Bool {
 		var hpBot = 30
 		var blow = false
-		while (hpPlayer <= 0 || hpBot <= 0){
+		while (hpPlayer > 0 && hpBot > 0){
+			clearScreen()
 			for i in 0..<9 {
 				for j in 0..<9 {
-					if (i == 0) || (i == 9) || (j == 0) || (j == 9) {
-						print("#")
-					}
-					if (i == 3) && (j == 5) {
-						print("&")
-					}
-					if (i == 5) && (j == 5) {
-						print("@")
+					if (i == 0) || (i == 8) || (j == 0) || (j == 8) {
+						print("#", terminator: " ")
+					} else
+					if (i == 3) && (j == 4) {
+						print("&", terminator: " ")
+					} else
+					if (i == 5) && (j == 4) {
+						print("@", terminator: " ")
+					} else
+					{
+						print(" ", terminator: " ")
 					}
 				}
+				print("")
 			}
 			print("Здоровье игрока ", hpPlayer)
 			print("Здоровье бота ", hpBot, "\n")
@@ -37,9 +42,8 @@ class inFight {
 				print("2. Усиленный удар")
 				print("3. Бежать")
 				
-				
 				var input = readLine()
-				while input == nil || input != "1" || input != "2" || input != "3" {
+				while input == nil || (input != "1" && input != "2" && input != "3") {
 					input = readLine()
 				}
 				
@@ -63,13 +67,23 @@ class inFight {
 			} else {
 				let damage = Int.random(in: 10...35)
 				hpBot = hpBot - damage
+				blow = false
 			}
+			if hpBot <= 0 {break}
+			hpPlayer = hpPlayer - Int.random(in: 0..<15)
 		}
 		
-		if hpBot <= 0 {
-			return true
+		clearScreen()
+		print("Здоровье игрока ", hpPlayer)
+		print("Здоровье бота ", hpBot, "\n")
+		
+		print("Нажмите Enter")
+		let _ = readLine()
+		
+		if hpPlayer <= 0 {
+			return false
 		}
 		
-		return false
+		return true
 	}
 }

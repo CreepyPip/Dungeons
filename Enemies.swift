@@ -8,16 +8,20 @@
 import Foundation
 
 func enemyMove(_ A: [[String]],_ x: Int,_ y: Int) -> [Int] {
-		if A[x+1][y] == " " && Int.random(in: 0..<4) < 1{
+		if (A[x+1][y] == "@" || A[x-1][y] == "@" || A[x][y+1] == "@" || A[x][y-1] == "@") &&
+			(Int.random(in: 0..<2)==1) {
+			// пока не придумал, как бот может начать бой
+		}
+		if A[x+1][y] == " " && Int.random(in: 0...4) < 1{
 			return [x+1, y]
 		}
-		if A[x-1][y] == " " && Int.random(in: 0..<4) < 1{
+		if A[x-1][y] == " " && Int.random(in: 0...4) < 1{
 			return [x-1, y]
 		}
-		if A[x][y+1] == " " && Int.random(in: 0..<4) < 1{
+		if A[x][y+1] == " " && Int.random(in: 0...4) < 1{
 			return [x, y+1]
 		}
-		if A[x][y-1] == " " && Int.random(in: 0..<4) < 1{
+		if A[x][y-1] == " " && Int.random(in: 0...4) < 1{
 			return [x, y-1]
 		}
 		return []
