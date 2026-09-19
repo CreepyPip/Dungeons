@@ -10,7 +10,8 @@ import Foundation
 func enemyMove(_ A: [[String]],_ x: Int,_ y: Int) -> [Int] {
 		if (A[x+1][y] == "@" || A[x-1][y] == "@" || A[x][y+1] == "@" || A[x][y-1] == "@") &&
 			(Int.random(in: 0..<2)==1) {
-			// пока не придумал, как бот может начать бой
+			return [11111]
+			
 		}
 		if A[x+1][y] == " " && Int.random(in: 0...4) < 1{
 			return [x+1, y]
@@ -52,9 +53,15 @@ func enemyMove(_ A: [[String]],_ x: Int,_ y: Int) -> [Int] {
 				if A[i][j] == "&" {
 					let em = enemyMove(A, i, j)
 					if !em.isEmpty {
-						B[i][j] = " "
-						B[em[0]][em[1]] = "&"}
-				}	
+						if em[0] == 11111 {
+							let ret: [[String]] = [["fight"]]
+							return ret
+						} else {
+							B[i][j] = " "
+							B[em[0]][em[1]] = "&"
+						}
+					}
+				}
 			}
 		}
 		return B

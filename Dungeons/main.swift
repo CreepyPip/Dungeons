@@ -23,22 +23,22 @@ while(game) {
 	let inv = InventoryBridge()
 	
 	// Действия пользователей
-	print("1. Начать игру")
-	print("2. Продолжить")
+	print("1. Продолжить")
+	print("2. Начать игру")
 	print("3. Закрыть игру")
 	print("4. Открыть свой сундук")
 	
 	let answer = readLine()!
 	
 	// Работа при новой игре
-	if (answer == "1") {
+	if (answer == "2") {
 		freeFile() // Очистка файла
 		game2 = true
 	}
 	
 	// Работа при продолжении игры
-	if (answer == "2") {
-		inv.freeChest() // Очестка сундука, чтобы не было повторений
+	if (answer == "1") {
+		inv.freeChest() // Очистка сундука, чтобы не было повторений
 		let arrFromFile = fromFile() // Запись из файла в переменную
 		
 		// Запись в сундук
@@ -210,7 +210,22 @@ while(game) {
 				itemsCount = 0
 			}
 			
-			A = ifEnemy(A, x, y)
+			let iE = ifEnemy(A, x, y)
+			if iE[0][0] == "fight"{
+				disableRawMode()
+				let fif = fight.fighting()
+				enableRawMode()
+				if fif == false {
+					inGame = false
+				} else {
+					A[x+1][y] = " "
+					A[x-1][y] = " "
+					A[x][y+1] = " "
+					A[x][y-1] = " "
+					view(A, x, y)
+				}
+			}
+			else {A = iE}
 			
 		}
 		clearScreen()

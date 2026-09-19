@@ -14,7 +14,7 @@ void Inventory::InBag(std::string object) {
 };
 
 std::string Inventory::OutBag(int index) {
-	if (index <= GetCount()){
+	if (index < GetCount()){
 		return Bag[index];
 	}
 	return "";
@@ -41,7 +41,7 @@ void Inventory::InChest(std::string object) {
 };
 
 std::string Inventory::OutChest(int index) {
-	if (index <= GetCount()){
+	if (index < GetCountChest()){
 		return Chest[index];
 	}
 	return "";
