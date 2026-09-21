@@ -50,6 +50,8 @@ class inFight {
 				if input == "1" {
 					let damage = Int.random(in: 0...15)
 					hpBot = hpBot - damage
+					print("Нанесено игроком ", damage)
+					Thread.sleep(forTimeInterval: 1.0)
 				}
 				
 				if input == "2" {
@@ -65,12 +67,20 @@ class inFight {
 					}
 				}
 			} else {
+				//
+				Thread.sleep(forTimeInterval: 1.0)
 				let damage = Int.random(in: 10...35)
 				hpBot = hpBot - damage
+				print("Нанесено игроком ", damage)
+				Thread.sleep(forTimeInterval: 1.0)
 				blow = false
 			}
+			Thread.sleep(forTimeInterval: 1.0)
 			if hpBot <= 0 {break}
-			hpPlayer = hpPlayer - Int.random(in: 0..<15)
+			let damageP = Int.random(in: 0..<15)
+			hpPlayer = hpPlayer - damageP
+			print("Нанесено игроку ", damageP)
+			Thread.sleep(forTimeInterval: 1.0)
 		}
 		
 		clearScreen()

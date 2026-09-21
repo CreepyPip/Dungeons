@@ -218,9 +218,9 @@ while(game) {
 				if fif == false {
 					inGame = false
 				} else {
-					if (x + 1 != height) { A[x + 1][y] = " " }
+					if (x + 1 != height-1) { A[x + 1][y] = " " }
 					if (x - 1 != 0) { A[x - 1][y] = " " }
-					if (y + 1 != width) { A[x][y + 1] = " " }
+					if (y + 1 != width-1) { A[x][y + 1] = " " }
 					if (y - 1 != 0) { A[x][y - 1] = " " }
 					view(A, x, y)
 				}
