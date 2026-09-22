@@ -7,34 +7,38 @@
 
 import Foundation
 
-
 class inFight {
 	private var hpPlayer = 100
 	
 	init() {}
+	
+	private func battleField() {
+		for i in 0..<9 {
+			for j in 0..<9 {
+				if (i == 0) || (i == 8) || (j == 0) || (j == 8) {
+					print("#", terminator: " ")
+				} else
+				if (i == 3) && (j == 4) {
+					print("&", terminator: " ")
+				} else
+				if (i == 5) && (j == 4) {
+					print("@", terminator: " ")
+				} else
+				{
+				print(" ", terminator: " ")
+				}
+			}
+			print("")
+		}
+	}
 	
 	func fighting() -> Bool {
 		var hpBot = 30
 		var blow = false
 		while (hpPlayer > 0 && hpBot > 0){
 			clearScreen()
-			for i in 0..<9 {
-				for j in 0..<9 {
-					if (i == 0) || (i == 8) || (j == 0) || (j == 8) {
-						print("#", terminator: " ")
-					} else
-					if (i == 3) && (j == 4) {
-						print("&", terminator: " ")
-					} else
-					if (i == 5) && (j == 4) {
-						print("@", terminator: " ")
-					} else
-					{
-						print(" ", terminator: " ")
-					}
-				}
-				print("")
-			}
+			battleField()
+			
 			print("Здоровье игрока ", hpPlayer)
 			print("Здоровье бота ", hpBot, "\n")
 			if !blow {
@@ -43,22 +47,25 @@ class inFight {
 				print("3. Бежать")
 				
 				var input = readLine()
-				while input == nil || (input != "1" && input != "2" && input != "3") {
+				let fastHitInput = "1"
+				let rfHitInput = "2"
+				let runInput = "3"
+				while input == nil || (input != fastHitInput && input != rfHitInput && input != runInput) {
 					input = readLine()
 				}
 				
-				if input == "1" {
+				if input == fastHitInput {
 					let damage = Int.random(in: 0...15)
 					hpBot = hpBot - damage
 					print("Нанесено игроком ", damage)
 					Thread.sleep(forTimeInterval: 1.0)
 				}
 				
-				if input == "2" {
+				if input == rfHitInput {
 					blow = true
 				}
 				
-				if input == "3" {
+				if input == runInput {
 					let escape = Int.random(in: 0..<30)
 					if escape > 20 {
 						return true
@@ -67,7 +74,6 @@ class inFight {
 					}
 				}
 			} else {
-				//
 				Thread.sleep(forTimeInterval: 1.0)
 				let damage = Int.random(in: 10...35)
 				hpBot = hpBot - damage

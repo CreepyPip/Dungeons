@@ -82,25 +82,23 @@ while(game) {
 			var microArr: [String] = []
 			for j in 0..<width {
 				let pretrans = dungeon![j + i * width]
-				if Int(exactly: pretrans)! == 35 {
-					microArr.append("#")
+				
+				switch Int(exactly: pretrans)! {
+					case 35:
+						microArr.append("#")
+					case 83:
+						microArr.append("S")
+						y = j
+					case 69:
+						microArr.append("E")
+					case 63:
+						microArr.append("?")
+					case 38:
+						microArr.append("&")
+					default:
+						microArr.append(" ")
 				}
-				if Int(exactly: pretrans)! == 32 {
-					microArr.append(" ")
-				}
-				if Int(exactly: pretrans)! == 83 {
-					microArr.append("S")
-					y = j;
-				}
-				if Int(exactly: pretrans)! == 69 {
-					microArr.append("E")
-				}
-				if Int(exactly: pretrans)! == 63 {
-					microArr.append("?")
-				}
-				if Int(exactly: pretrans)! == 38 {
-					microArr.append("&")
-				}
+				
 			}
 			
 			A.append(microArr)
@@ -140,12 +138,18 @@ while(game) {
 			
 			// Ввод пользователя
 			var input: Int32
+			let wKey = 119
+			let aKey = 97
+			let sKey = 115
+			let dKey = 100
+			let eKey = 101
 			
 			repeat {
 				input = getchar()
-			} while (input != 119 && input != 97 && input != 115 && input != 100 && input != 101)
+			} while (input != wKey && input != aKey && input != sKey && input != dKey && input != eKey)
 			
-			if (input == 119 && A[x-1][y] == "&") || (input == 97 && A[x][y-1] == "&") || (input == 115 && A[x+1][y] == "&") || (input == 100 && A[x][y+1] == "&") {
+			if (input == wKey && A[x-1][y] == "&") || (input == aKey && A[x][y-1] == "&") || 
+				(input == sKey && A[x+1][y] == "&") || (input == dKey && A[x][y+1] == "&") {
 				disableRawMode()
 				let ff = fight.fighting()
 				enableRawMode()
@@ -160,37 +164,37 @@ while(game) {
 				}
 			}
 			
-			if (input == 119) && (A[x-1][y] == "E") {
+			if (input == wKey) && (A[x-1][y] == "E") {
 				exit = true
 				inGame = false
 			}
 			
-			if (input == 119) && (A[x-1][y] == " ") {
+			if (input == wKey) && (A[x-1][y] == " ") {
 				A[x][y] = " "
 				x = x - 1
 				A[x][y] = "@"
 			}
 			
-			if (input == 97) && (A[x][y-1] == " ") {
+			if (input == aKey) && (A[x][y-1] == " ") {
 				A[x][y] = " "
 				y = y - 1
 				A[x][y] = "@"
 			}
 			
-			if (input == 115) && (A[x+1][y] == " ") {
+			if (input == sKey) && (A[x+1][y] == " ") {
 				A[x][y] = " "
 				x = x + 1
 				A[x][y] = "@"
 			}
 			
-			if (input == 100) && (A[x][y+1] == " ") {
+			if (input == dKey) && (A[x][y+1] == " ") {
 				A[x][y] = " "
 				y = y + 1
 				A[x][y] = "@"
 			}
 			
 			// Сундуки
-			if (input == 101) && (A[x][y+1] == "?" || A[x][y-1] == "?" || A[x+1][y] == "?" || A[x-1][y] == "?") {
+			if (input == eKey) && (A[x][y+1] == "?" || A[x][y-1] == "?" || A[x+1][y] == "?" || A[x-1][y] == "?") {
 				if A[x][y+1] == "?" {
 					A[x][y+1] = " "
 					outputItems.append(randomItems())
