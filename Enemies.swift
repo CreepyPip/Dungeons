@@ -13,20 +13,19 @@ func enemyMove(_ A: [[String]],_ x: Int,_ y: Int) -> [Int] {
 			return [11111]
 			
 		}
-		switch " " {
-			case A[x+1][y]:
-				return [x+1, y]
-			case A[x-1][y]:
-				return [x-1, y] 
-			case A[x][y+1]:
-				return [x, y+1]
-			case A[x][y-1]:
-				return [x, y-1] 
-			
-			default:
-				return []
+		if A[x+1][y] == " " && Int.random(in: 0...4) < 1{
+			return [x+1, y]
 		}
-		
+		if A[x-1][y] == " " && Int.random(in: 0...4) < 1{
+			return [x-1, y]
+		}
+		if A[x][y+1] == " " && Int.random(in: 0...4) < 1{
+			return [x, y+1]
+		}
+		if A[x][y-1] == " " && Int.random(in: 0...4) < 1{
+			return [x, y-1]
+		}
+		return []
 	}
 	
 	func ifEnemy(_ A: [[String]],_ x: Int,_ y: Int) -> [[String]] {

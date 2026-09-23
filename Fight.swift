@@ -32,6 +32,24 @@ class inFight {
 		}
 	}
 	
+	func startBattle(_ AA: [[String]],_ x: Int,_ y: Int) -> [[String]] {
+		var A = AA
+		
+		disableRawMode()
+		let ff = fighting()
+		enableRawMode()
+		if ff == false {
+			return [["False"]]
+		} else {
+			if (x + 1 != height-1) { A[x + 1][y] = " " }
+			if (x - 1 != 0) { A[x - 1][y] = " " }
+			if (y + 1 != width-1) { A[x][y + 1] = " " }
+			if (y - 1 != 0) { A[x][y - 1] = " " }
+			view(A, x, y)
+		}
+		return A
+	}
+	
 	func fighting() -> Bool {
 		var hpBot = 30
 		var blow = false

@@ -133,3 +133,4 @@ func view(_ A: [[String]],_ x: Int,_ y: Int) {
 		print()
 	}
 }
+

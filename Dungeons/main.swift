@@ -150,17 +150,11 @@ while(game) {
 			
 			if (input == wKey && A[x-1][y] == "&") || (input == aKey && A[x][y-1] == "&") || 
 				(input == sKey && A[x+1][y] == "&") || (input == dKey && A[x][y+1] == "&") {
-				disableRawMode()
-				let ff = fight.fighting()
-				enableRawMode()
-				if ff == false {
-					inGame = false
+				let AA = fight.startBattle(A, x, y)
+				if AA[0][0] != "False" {
+					A = AA
 				} else {
-					A[x+1][y] = " "
-					A[x-1][y] = " "
-					A[x][y+1] = " "
-					A[x][y-1] = " "
-					view(A, x, y)
+					inGame = false
 				}
 			}
 			
@@ -216,17 +210,11 @@ while(game) {
 			
 			let iE = ifEnemy(A, x, y)
 			if iE[0][0] == "fight"{
-				disableRawMode()
-				let fif = fight.fighting()
-				enableRawMode()
-				if fif == false {
-					inGame = false
+				let AA = fight.startBattle(A, x, y)
+				if AA[0][0] != "False" {
+					A = AA
 				} else {
-					if (x + 1 != height-1) { A[x + 1][y] = " " }
-					if (x - 1 != 0) { A[x - 1][y] = " " }
-					if (y + 1 != width-1) { A[x][y + 1] = " " }
-					if (y - 1 != 0) { A[x][y - 1] = " " }
-					view(A, x, y)
+					inGame = false
 				}
 			}
 			else {A = iE}
