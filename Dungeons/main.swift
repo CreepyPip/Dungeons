@@ -25,202 +25,59 @@ while(game) {
 	// Действия пользователей
 	print("1. Продолжить")
 	print("2. Начать игру")
-	print("3. Закрыть игру")
+	print("3. Бесконечный режим")
 	print("4. Открыть свой сундук")
+	print("5. Закрыть игру")
 	
 	let answer = readLine()!
+	let continueGame = "1"
+	let newGame = "2"
+	let noEndGame = "3"
+	let openChest = "4"
+	var typeGame = true
+	let inf = infinityMode()
 	
-	// Работа при новой игре
-	if (answer == "2") {
-		freeFile() // Очистка файла
-		game2 = true
-	}
 	
-	// Работа при продолжении игры
-	if (answer == "1") {
-		inv.freeChest() // Очистка сундука, чтобы не было повторений
-		let arrFromFile = fromFile() // Запись из файла в переменную
-		
-		// Запись в сундук
-		for i in 0..<arrFromFile.count {
-			inv.inChest(arrFromFile[i])
-		}
-		game2 = true
-	}
-	
-	// Проверка того, что есть в сундуке
-	if (answer == "4") {
-		let arrFromFile = fromFile() // Проверяем из файла
-
-		print("У вас в сундуке:")
-		for i in 0..<arrFromFile.count {
-			print(arrFromFile[i])
-		}
-	}
-	
-	// Закрытие игры (чтобы работало не только на 3)
-	if (answer != "1" && answer != "2" && answer != "4") {
-		game = false
-		break
+	switch answer {
+		case continueGame:
+			inv.freeChest() // Очистка сундука, чтобы не было повторений
+			let arrFromFile = fromFile() // Запись из файла в переменную
+			
+			// Запись в сундук
+			for i in 0..<arrFromFile.count {
+				inv.inChest(arrFromFile[i])
+			}
+			game2 = true
+		case newGame:
+			freeFile() // Очистка файла
+			game2 = true
+		case openChest:
+			let arrFromFile = fromFile() // Проверяем из файла
+			
+			print("У вас в сундуке:")
+			for i in 0..<arrFromFile.count {
+				print(arrFromFile[i])
+			}
+		case noEndGame:
+			typeGame = false
+			game2 = true
+			
+		default:
+			game = false
+			break
 	}
 	
 	var exit = false 
 	
 	if (game2) {
-		// Генерируем подземелье
-		let dungeon = generateDungeon(Int32(width), Int32(height), 30)
 		let fight = inFight()
-		
-		// Массив для удобного хранения подземелья
-		var A: [[String]] = []
-		// Координаты игрока
-		var x = height - 2
-		var y = (width/2)-1
-		
-		// Перезаписываем
-		for i in 0..<height {
-			var microArr: [String] = []
-			for j in 0..<width {
-				let pretrans = dungeon![j + i * width]
-				
-				switch Int(exactly: pretrans)! {
-					case 35:
-						microArr.append("#")
-					case 83:
-						microArr.append("S")
-						y = j
-					case 69:
-						microArr.append("E")
-					case 63:
-						microArr.append("?")
-					case 38:
-						microArr.append("&")
-					default:
-						microArr.append(" ")
-				}
-				
-			}
-			
-			A.append(microArr)
-		}
-		
-		// Местонахождение игрока
-		A[x][y] = "@"
-		enableRawMode() // Ввод "без подтверждения"
-		var inGame = true // булевая для отображения поля
-		var outputItems: [String] = [] // Массив для отображения собранного
-		var itemsCount = 0 // переменная для цикла отображения собранного
-		
-		while(inGame){
-			clearScreen() // Чистим экран при каждой иттерации
-			
-			view(A, x, y)
-			
-			// Отображение собранного из сунуков
-			if !outputItems.isEmpty {
-				for i in 0..<outputItems.count {
-					print(outputItems[i])
-				}
-				itemsCount += 1
-			}
-			
-			// Склаываем в сумку и чистим экран
-			if (itemsCount == 3) {
-				for i in 0..<outputItems.count {
-					if (outputItems[i] != "Пустой") {
-						inv.inBag(outputItems[i])
-					}
-				}
-				itemsCount = 0
-				outputItems.removeAll()
-			}
-			
-			
-			// Ввод пользователя
-			var input: Int32
-			let wKey = 119
-			let aKey = 97
-			let sKey = 115
-			let dKey = 100
-			let eKey = 101
-			
-			repeat {
-				input = getchar()
-			} while (input != wKey && input != aKey && input != sKey && input != dKey && input != eKey)
-			
-			if (input == wKey && A[x-1][y] == "&") || (input == aKey && A[x][y-1] == "&") || 
-				(input == sKey && A[x+1][y] == "&") || (input == dKey && A[x][y+1] == "&") {
-				let AA = fight.startBattle(A, x, y)
-				if AA[0][0] != "False" {
-					A = AA
-				} else {
-					inGame = false
-				}
-			}
-			
-			if (input == wKey) && (A[x-1][y] == "E") {
-				exit = true
-				inGame = false
-			}
-			
-			if (input == wKey) && (A[x-1][y] == " ") {
-				A[x][y] = " "
-				x = x - 1
-				A[x][y] = "@"
-			}
-			
-			if (input == aKey) && (A[x][y-1] == " ") {
-				A[x][y] = " "
-				y = y - 1
-				A[x][y] = "@"
-			}
-			
-			if (input == sKey) && (A[x+1][y] == " ") {
-				A[x][y] = " "
-				x = x + 1
-				A[x][y] = "@"
-			}
-			
-			if (input == dKey) && (A[x][y+1] == " ") {
-				A[x][y] = " "
-				y = y + 1
-				A[x][y] = "@"
-			}
-			
-			// Сундуки
-			if (input == eKey) && (A[x][y+1] == "?" || A[x][y-1] == "?" || A[x+1][y] == "?" || A[x-1][y] == "?") {
-				if A[x][y+1] == "?" {
-					A[x][y+1] = " "
-					outputItems.append(randomItems())
-				}
-				if A[x][y-1] == "?" {
-					A[x][y-1] = " "
-					outputItems.append(randomItems())
-				}
-				if A[x+1][y] == "?" {
-					A[x+1][y] = " "
-					outputItems.append(randomItems())
-				}
-				if A[x-1][y] == "?" {
-					A[x-1][y] = " "
-					outputItems.append(randomItems())
-				}
-				itemsCount = 0
-			}
-			
-			let iE = ifEnemy(A, x, y)
-			if iE[0][0] == "fight"{
-				let AA = fight.startBattle(A, x, y)
-				if AA[0][0] != "False" {
-					A = AA
-				} else {
-					inGame = false
-				}
-			}
-			else {A = iE}
-			
-		}
+		exit = playingField(width, height, typeGame, inv, fight, inf)
 		clearScreen()
+		
+		if !typeGame {
+			print("Вы прошли \(inf.getLevel()) этажей")
+			print("И получили \(inf.score(inv.outBag())) очков")
+		}
 		if(exit){
 			print("Вы дошли до конца")
 			// Вывод собранного на экран, запись в сундук игрока и очистка сумки
@@ -239,7 +96,8 @@ while(game) {
 		// Отключение режима "без проверки"
 		disableRawMode()
 		// Очистка памяти
-		freeMaze(dungeon)
+		//freeMaze(dungeon)
 		game2 = false
+			
 	}
 }
