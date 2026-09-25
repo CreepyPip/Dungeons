@@ -75,7 +75,7 @@ while(game) {
 		clearScreen()
 		
 		if !typeGame {
-			print("Вы прошли \(inf.getLevel()) этажей")
+			print("Вы прошли \(inf.level) этажей")
 			print("И получили \(inf.score(inv.outBag())) очков")
 		}
 		if(exit){
