@@ -8,42 +8,25 @@
 import Foundation
 
 class infinityMode {
-	private var level = 0
+	private(set) var level = 0
 	
-	func score(_ items: [String]) -> Double {
-		var itemsScore = 0.0
-		for i in 0..<items.count {
-			switch items[i] {
-				case "Ржавый меч": 
-					itemsScore += 1.0
-				case "Ржавая броня": 
-					itemsScore += 2.0
-				case "Маленький мешок с монетами": 
-					itemsScore += 3
-				case "Средний мешок с монетами": 
-					itemsScore += 5
-				case "Большой мешок с монетами": 
-					itemsScore += 8
-				case "Почти новый меч": 
-					itemsScore += 10
-				case "Почти новая броня": 
-					itemsScore += 13
-				case "Золото":
-					itemsScore += 20
-				case "Чьи-то кости":
-					itemsScore += 0.1
-				default:
-					itemsScore += 0.2
-			}
-		}
-		return itemsScore
-	}
+    static private let defaultItemScore: Double = 0.2
+    
+    static private let itemScores: [String:Double] = [
+        "Ржавый меч": 1.0,
+        "Ржавая броня": 2.0,
+        "Маленький мешок с монетами": 3.0,
+        "Средний мешок с монетами": 5.0,
+        "Большой мешок с монетами": 8.0,
+        "Почти новый меч": 10.0,
+        "Почти новая броня": 13.0,
+        "Золото": 20,
+        "Чьи-то кости": 0.1
+    ]
+    
+    let score: ([String]) -> Double = { $0.reduce(0) { $0 + (itemScores[$1] ?? defaultItemScore) } }
 	
-	func levelPlus() {
-		level += 1
-	}
-	
-	func getLevel() -> Int {
-		return level
+    func levelPlus(amount: Int = 1) {
+		level += amount
 	}
 }
