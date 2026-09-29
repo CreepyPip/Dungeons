@@ -92,7 +92,7 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 		
 		if (input == wKey && A[x-1][y] == "&") || (input == aKey && A[x][y-1] == "&") || 
 			(input == sKey && A[x+1][y] == "&") || (input == dKey && A[x][y+1] == "&") {
-			let AA = fight.startBattle(A, x, y)
+			let AA = fight.startBattle(A, x, y, inv)
 			if AA[0][0] != "False" {
 				A = AA
 			} else {
@@ -151,7 +151,7 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 		
 		let iE = ifEnemy(A, x, y)
 		if iE[0][0] == "fight"{
-			let AA = fight.startBattle(A, x, y)
+			let AA = fight.startBattle(A, x, y, inv)
 			if AA[0][0] != "False" {
 				A = AA
 			} else {

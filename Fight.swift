@@ -32,11 +32,11 @@ class inFight {
 		}
 	}
 	
-	func startBattle(_ AA: [[String]],_ x: Int,_ y: Int) -> [[String]] {
+	func startBattle(_ AA: [[String]],_ x: Int,_ y: Int,_ inv: InventoryBridge) -> [[String]] {
 		var A = AA
 		
 		disableRawMode()
-		let ff = fighting()
+		let ff = fighting(inv)
 		enableRawMode()
 		if ff == false {
 			return [["False"]]
@@ -50,9 +50,37 @@ class inFight {
 		return A
 	}
 	
-	func fighting() -> Bool {
+	private func inventoryInFight(_ inv: InventoryBridge) -> String {
+		var returnText = ""
+		let belt = inv.outBelt()!
+		if !belt.isEmpty{
+			for i in 0..<belt.count {
+				print(i+1, belt[i])
+			}
+		} else {return ""}
+		print(belt.count+1, "Выход из инвентаря")
+		
+		var input = readLine()!
+		
+		while Int(input) == nil && (Int(input)! <= 0 || Int(input)! > belt.count) {
+			input = readLine()!
+		}
+		
+		if Int(input)! != belt.count+1 {
+			returnText = belt[Int(input)! - 1]
+			inv.deleteItem(fromBelt: Int32(input)! - 1)
+		}
+		
+		return returnText
+	}
+	
+	private func fighting(_ inv: InventoryBridge) -> Bool {
 		var hpBot = 30
 		var blow = false
+		let minDamageFromBot = 0
+		var maxDamageFromBot = 15
+		var minDamage = 0
+		var maxDamage = 15
 		while (hpPlayer > 0 && hpBot > 0){
 			clearScreen()
 			battleField()
@@ -62,38 +90,72 @@ class inFight {
 			if !blow {
 				print("1. Быстрый удар")
 				print("2. Усиленный удар")
-				print("3. Бежать")
+				print("3. Инвентарь")
+				print("4. Бежать")
 				
 				var input = readLine()
 				let fastHitInput = "1"
 				let rfHitInput = "2"
-				let runInput = "3"
-				while input == nil || (input != fastHitInput && input != rfHitInput && input != runInput) {
+				let inventory = "3"
+				let runInput = "4"
+				while input == nil || (input != fastHitInput && input != rfHitInput && input != runInput && input != inventory) {
 					input = readLine()
 				}
 				
-				if input == fastHitInput {
-					let damage = Int.random(in: 0...15)
-					hpBot = hpBot - damage
-					print("Нанесено игроком ", damage)
-					Thread.sleep(forTimeInterval: 1.0)
+				switch input {
+					case fastHitInput:
+						let damage = Int.random(in: minDamage...maxDamage)
+						hpBot = hpBot - damage
+						print("Нанесено игроком ", damage)
+						Thread.sleep(forTimeInterval: 1.0)
+						break
+					case rfHitInput:
+						blow = true
+						break
+					case inventory:
+						clearScreen()
+						let itemFromBelt = inventoryInFight(inv)
+						clearScreen()
+						let poisons: [String] = ["Зелье скрытности", "Зелье здоровья", "Зелье защиты", "Зелье силы"]
+						
+						switch itemFromBelt {
+							case poisons[0]:
+								print("Побег")
+								Thread.sleep(forTimeInterval: 1.5)
+								return true
+							case poisons[1]:
+								print("Лечение")
+								Thread.sleep(forTimeInterval: 1.0)
+								hpPlayer += Int.random(in: 15...40)
+							case poisons[2]:
+								print("Повышение защиты")
+								Thread.sleep(forTimeInterval: 1.0)
+								maxDamageFromBot = 8
+							case poisons[3]:
+								print("Повышение силы")
+								Thread.sleep(forTimeInterval: 1.0)
+								minDamage = 5
+								maxDamage = 25
+							default:
+								continue
+						}
+					freeFileBelt()
+					inFileBelt(inv.outBelt(), inv.getMoney())
+						
+					default:
+						let escape = Int.random(in: 0..<30)
+						if escape > 20 {
+							return true
+						} else {
+							print("Не удалось")
+						}
+						break
 				}
+
 				
-				if input == rfHitInput {
-					blow = true
-				}
-				
-				if input == runInput {
-					let escape = Int.random(in: 0..<30)
-					if escape > 20 {
-						return true
-					} else {
-						print("Не удалось")
-					}
-				}
 			} else {
 				Thread.sleep(forTimeInterval: 1.0)
-				let damage = Int.random(in: 10...35)
+				let damage = Int.random(in: minDamage+10...maxDamage+20)
 				hpBot = hpBot - damage
 				print("Нанесено игроком ", damage)
 				Thread.sleep(forTimeInterval: 1.0)
@@ -101,7 +163,7 @@ class inFight {
 			}
 			Thread.sleep(forTimeInterval: 1.0)
 			if hpBot <= 0 {break}
-			let damageP = Int.random(in: 0..<15)
+			let damageP = Int.random(in: minDamageFromBot...maxDamageFromBot)
 			hpPlayer = hpPlayer - damageP
 			print("Нанесено игроку ", damageP)
 			Thread.sleep(forTimeInterval: 1.0)

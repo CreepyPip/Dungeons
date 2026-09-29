@@ -44,6 +44,9 @@ while(game) {
 		case continueGame:
 			inv.freeChest() // Очистка сундука, чтобы не было повторений
 			let arrFromFile = fromFile() // Запись из файла в переменную
+			let itemsInBelt = fromFileBelt()
+			inv.addMoney(moneyFromFile())
+			for i in 0..<itemsInBelt.count {inv.inBelt(itemsInBelt[i])}
 			
 			// Запись в сундук
 			for i in 0..<arrFromFile.count {
@@ -98,7 +101,7 @@ while(game) {
 			// Вывод собранного на экран, запись в сундук игрока и очистка сумки
 			print("Вы собрали за забег:")
 			let arrBag = inv.outBag()!
-			inFile(arrBag, inv.getMoney())
+			inFile(arrBag, moneyFromFile())
 			if !arrBag.isEmpty {
 				for i in 0..<arrBag.count {
 					inv.inChest(arrBag[i])

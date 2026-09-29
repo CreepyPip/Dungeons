@@ -81,7 +81,7 @@ func freeFile() {
 // Запись в файл
 func inFile(_ arr: [String],_ money: Double) {
 	var arra = arr
-	arra.append("")
+	if arra[arra.count-1] != "" {arra.append("")}
 	let text = arra.joined(separator: "\n")
 	let moneyS = String(money)
 	
@@ -113,7 +113,13 @@ func fromFile() -> [String] {
 		}
 	}
 	
-	return arr
+	var arr2: [String] = []
+	
+	for i in 0..<arr.count {
+		if arr[i] != "" {arr2.append(arr[i])}
+	}
+	
+	return arr2
 }
 
 func moneyFromFile() -> Double {
@@ -159,3 +165,61 @@ func view(_ A: [[String]],_ x: Int,_ y: Int) {
 	}
 }
 
+func freeFileBelt() {
+	let nothing = ""
+	
+	var url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
+		.appendingPathComponent("PlayerBelt.sosal")
+	
+	try? nothing.write(to: url, atomically: true, encoding: .utf8)
+	
+	url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
+		.appendingPathComponent("PlayerMoney.sosal")
+	
+	try? nothing.write(to: url, atomically: true, encoding: .utf8)
+}
+
+// Запись в файл
+func inFileBelt(_ arr: [String],_ money: Double) {
+	var arra = arr
+	if arra[arra.count-1] != "" {arra.append("")}
+	let text = arra.joined(separator: "\n")
+	let moneyS = String(money)
+	
+	let url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
+		.appendingPathComponent("PlayerBelt.sosal")
+	
+	let fileHandle = try! FileHandle(forWritingTo: url)
+	defer { fileHandle.closeFile() }
+	fileHandle.seekToEndOfFile()
+	fileHandle.write(text.data(using: .utf8)!)
+	
+	let url2 = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
+		.appendingPathComponent("PlayerMoney.sosal")
+	
+	let fileMoney = try? FileHandle(forWritingTo: url2)
+	defer { fileMoney?.closeFile() }
+	fileMoney?.seekToEndOfFile()
+	fileMoney?.write(moneyS.data(using: .utf8)!)
+}
+
+// Чтение файла
+func fromFileBelt() -> [String] {
+	var arr: [String] = []
+	if let dir = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask).first {
+		let fileURL = dir.appendingPathComponent("PlayerBelt.sosal")
+		
+		if let savedText = try? String(contentsOf: fileURL, encoding: .utf8) {
+			arr = savedText.components(separatedBy: "\n")
+		}
+	}
+	
+	
+	var arr2: [String] = []
+	
+	for i in 0..<arr.count {
+		if arr[i] != "" {arr2.append(arr[i])}
+	}
+	
+	return arr2
+}

@@ -9,10 +9,18 @@ import Foundation
 
 func dealer(_ inv: InventoryBridge) {
 	var chest = inv.outChest()!
+	var belt = inv.outBelt()!
 	if chest.isEmpty {chest = fromFile()}
+	if belt.isEmpty {belt = fromFileBelt()}
 	if !chest.isEmpty {
 		for i in 0..<chest.count {
 			inv.inChest(chest[i])
+		}
+	}
+	
+	if !belt.isEmpty {
+		for i in 0..<belt.count {
+			inv.inBelt(belt[i])
 		}
 	}
 	if inv.getMoney() == 0.0 {inv.addMoney(moneyFromFile())}
@@ -35,24 +43,42 @@ func dealer(_ inv: InventoryBridge) {
 			while (true) {
 				chest = inv.outChest()
 				if !chest.isEmpty {
-					for i in 0..<chest.count-1 {
-						print(i+1, ". ", chest[i])
+					for i in 0..<chest.count {
+						print(i+1, ".", chest[i])
 					}
 				}
 				print("Введите не целое число, чтобы выйти")
 				let inp = readLine()!
 				
 				if Int(inp) != nil {
-					if Int(inp)! < chest.count {
+					if Int(inp)! - 1 >= 0 && Int(inp)! - 1 < chest.count {
 						inv.deleteItem(fromChest: Int32(inp)!)
 						freeFile()
-						inFile(inv.outChest(), inv.getMoney())
+						inFile(inv.outChest(), moneyFromFile())
 					}
 				}else {break}
 			}
 		case buy:
 			while (true) {
+				let poisons: [String] = ["Зелье скрытности", "Зелье здоровья", "Зелье защиты", "Зелье силы"]
+				let poisonsPrice: [Double] = [15, 8, 5, 5]
+				for i in 0..<poisons.count {
+					print(i+1, ".", poisons[i], "(\(poisonsPrice[i]))")
+				}
+				print("")
+				print("Введите не целое число, чтобы выйти")
+				let inp = readLine()!
 				
+				if Int(inp) != nil {
+					if Int(inp)! - 1 >= 0 && Int(inp)! - 1 < poisons.count {
+						if inv.getMoney() - poisonsPrice[Int(inp)!-1] >= 0 {
+							inv.putMoney(poisonsPrice[Int(inp)!-1])
+							inv.inBelt(poisons[Int(inp)!-1])
+							freeFileBelt()
+							inFileBelt(inv.outBelt(), inv.getMoney())
+						}
+					}
+				}else {break}
 			}
 		default:
 			return
