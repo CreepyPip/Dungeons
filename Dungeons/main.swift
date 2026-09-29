@@ -27,13 +27,15 @@ while(game) {
 	print("2. Начать игру")
 	print("3. Бесконечный режим")
 	print("4. Открыть свой сундук")
-	print("5. Закрыть игру")
+	print("5. Торговец")
+	print("6. Закрыть игру")
 	
 	let answer = readLine()!
 	let continueGame = "1"
 	let newGame = "2"
 	let noEndGame = "3"
 	let openChest = "4"
+	let dealerInput = "5"
 	var typeGame = true
 	let inf = infinityMode()
 	
@@ -61,6 +63,9 @@ while(game) {
 		case noEndGame:
 			typeGame = false
 			game2 = true
+		case dealerInput:
+			dealer(inv)
+			continue
 			
 		default:
 			game = false
@@ -71,7 +76,17 @@ while(game) {
 	
 	if (game2) {
 		let fight = inFight()
-		exit = playingField(width, height, typeGame, inv, fight, inf)
+		if typeGame {
+			exit = playingField(width, height, inv, fight, inf)
+		} else {
+			var infExit = true
+			
+			while(infExit) {
+				infExit = playingField(width, height, inv, fight, inf)
+				inf.levelPlus()
+			}
+		}
+		
 		clearScreen()
 		
 		if !typeGame {
@@ -83,7 +98,7 @@ while(game) {
 			// Вывод собранного на экран, запись в сундук игрока и очистка сумки
 			print("Вы собрали за забег:")
 			let arrBag = inv.outBag()!
-			inFile(arrBag)
+			inFile(arrBag, inv.getMoney())
 			if !arrBag.isEmpty {
 				for i in 0..<arrBag.count {
 					inv.inChest(arrBag[i])

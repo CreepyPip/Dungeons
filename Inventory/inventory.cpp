@@ -40,9 +40,56 @@ void Inventory::InChest(std::string object) {
 	Chest.push_back(object);
 };
 
+void Inventory::DeleteFromChest(int index) {
+	Chest.erase(Chest.begin() + index);
+};
+
 std::string Inventory::OutChest(int index) {
 	if (index < GetCountChest()){
 		return Chest[index];
 	}
 	return "";
+};
+
+double Inventory::GetMoney() {
+	return money;
+};
+
+void Inventory::AddMoney(double new_money) {
+	money += new_money;
+};
+
+void Inventory::PutMoney(double putting) {
+	money -= putting;
+};
+
+void Inventory::InBelt(std::string object) {
+	Belt.push_back(object);
+};
+
+std::string Inventory::OutBelt(int index) {
+	if (index < GetCountBelt()){
+		return Belt[index];
+	}
+	return "";
+};
+
+int Inventory::GetCountBelt() const {
+	return (int)Belt.size();
+};
+
+void Inventory::DeleteItemFromBelt(int index) {
+	Price(index);
+	Belt.erase(Belt.begin() + index);
+};
+
+void Inventory::Price(int index) {
+	std::string item = Belt[index];
+	
+	auto it = ItemPrices.find(item);
+	
+	if (it != ItemPrices.end()) {
+		money += it->second; 
+	}
+	
 };

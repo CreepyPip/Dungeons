@@ -7,7 +7,7 @@
 
 import Foundation
 
-func playingField(_ width: Int,_ height: Int,_ type: Bool,_ inv: InventoryBridge,_ fight: inFight,_ inf: infinityMode) -> Bool {
+func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inFight,_ inf: infinityMode) -> Bool {
 	
 	// Генерируем подземелье
 	let dungeon = generateDungeon(Int32(width), Int32(height), 30)
@@ -101,13 +101,7 @@ func playingField(_ width: Int,_ height: Int,_ type: Bool,_ inv: InventoryBridge
 		}
 		
 		if (input == wKey) && (A[x-1][y] == "E") {
-			if type != false {
-				return true
-			} else {
-				_ = playingField(width, height, type, inv, fight, inf)
-				inf.levelPlus()
-				return false
-			}
+			return true
 		}
 		
 		if (input == wKey) && (A[x-1][y] == " ") {

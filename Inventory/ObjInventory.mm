@@ -61,4 +61,41 @@
 	return ChestArr;
 }
 
+- (double)GetMoney {
+	return _cppInventory -> GetMoney();
+}
+
+- (void)AddMoney:(double) newMoney {
+	_cppInventory -> AddMoney(newMoney);
+}
+
+- (void)PutMoney:(double) putting {
+	_cppInventory -> PutMoney(putting);
+}
+
+- (void)InBelt:(NSString*)item {
+	std::string cppString([item UTF8String]);
+	_cppInventory->InBelt(cppString);
+}
+
+- (NSArray<NSString *> *)OutBelt {
+	NSMutableArray *BeltArr = [NSMutableArray array];
+	
+	for (int i = 0; i < _cppInventory->GetCountBelt(); i++){
+		std::string item = _cppInventory->OutBelt(i);
+		NSString *nsItem = [NSString stringWithUTF8String:item.c_str()];
+		[BeltArr addObject:nsItem];
+	}
+	
+	return BeltArr;
+}
+
+- (void)DeleteItemFromBelt:(int) index {
+	_cppInventory -> DeleteItemFromBelt(index - 1);
+}
+
+- (void)DeleteItemFromChest:(int) index {
+	_cppInventory -> DeleteFromChest(index - 1);
+}
+
 @end

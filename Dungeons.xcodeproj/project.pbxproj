@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		039B34AD3064185800D30E97 /* Gameplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039B34AC3064185800D30E97 /* Gameplay.swift */; };
 		039B34AF306423BE00D30E97 /* infinityMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039B34AE306423BE00D30E97 /* infinityMode.swift */; };
+		039B34B1306508A700D30E97 /* Dealer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039B34B0306508A700D30E97 /* Dealer.swift */; };
 		03AA9BC7304FC08700518614 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AA9BC6304FC08700518614 /* main.swift */; };
 		03AA9BCF304FC0C400518614 /* generate.c in Sources */ = {isa = PBXBuildFile; fileRef = 03AA9BCE304FC0C400518614 /* generate.c */; };
 		03AA9BD3304FC13E00518614 /* inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03AA9BD1304FC13E00518614 /* inventory.cpp */; };
@@ -35,6 +36,7 @@
 /* Begin PBXFileReference section */
 		039B34AC3064185800D30E97 /* Gameplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gameplay.swift; sourceTree = "<group>"; };
 		039B34AE306423BE00D30E97 /* infinityMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = infinityMode.swift; sourceTree = "<group>"; };
+		039B34B0306508A700D30E97 /* Dealer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dealer.swift; sourceTree = "<group>"; };
 		03AA9BC3304FC08700518614 /* Dungeons */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Dungeons; sourceTree = BUILT_PRODUCTS_DIR; };
 		03AA9BC6304FC08700518614 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		03AA9BCD304FC0C300518614 /* Dungeons-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dungeons-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 		03AA9BBA304FC08700518614 = {
 			isa = PBXGroup;
 			children = (
+				039B34B0306508A700D30E97 /* Dealer.swift */,
 				039B34AE306423BE00D30E97 /* infinityMode.swift */,
 				039B34AC3064185800D30E97 /* Gameplay.swift */,
 				03DEC76F305D7EB500BBF0F5 /* Fight.swift */,
@@ -191,6 +194,7 @@
 				03AA9BC7304FC08700518614 /* main.swift in Sources */,
 				03AA9BD83052761900518614 /* Functions.swift in Sources */,
 				03DEC770305D7EB500BBF0F5 /* Fight.swift in Sources */,
+				039B34B1306508A700D30E97 /* Dealer.swift in Sources */,
 				039B34AF306423BE00D30E97 /* infinityMode.swift in Sources */,
 				03AA9BE33054D93D00518614 /* Enemies.swift in Sources */,
 				03AA9BD3304FC13E00518614 /* inventory.cpp in Sources */,

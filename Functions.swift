@@ -67,17 +67,23 @@ func randomItems() -> String {
 func freeFile() {
 	let nothing = ""
 	
-	let url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
+	var url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
 		.appendingPathComponent("PlayerChest.sosal")
 	
-	try! nothing.write(to: url, atomically: true, encoding: .utf8)
+	try? nothing.write(to: url, atomically: true, encoding: .utf8)
+	
+	url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
+		.appendingPathComponent("PlayerMoney.sosal")
+	
+	try? nothing.write(to: url, atomically: true, encoding: .utf8)
 }
 
 // Запись в файл
-func inFile(_ arr: [String]) {
+func inFile(_ arr: [String],_ money: Double) {
 	var arra = arr
 	arra.append("")
 	let text = arra.joined(separator: "\n")
+	let moneyS = String(money)
 	
 	let url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
 		.appendingPathComponent("PlayerChest.sosal")
@@ -87,7 +93,13 @@ func inFile(_ arr: [String]) {
 	fileHandle.seekToEndOfFile()
 	fileHandle.write(text.data(using: .utf8)!)
 	
+	let url2 = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
+		.appendingPathComponent("PlayerMoney.sosal")
 	
+	let fileMoney = try? FileHandle(forWritingTo: url2)
+	defer { fileMoney?.closeFile() }
+	fileMoney?.seekToEndOfFile()
+	fileMoney?.write(moneyS.data(using: .utf8)!)
 }
 
 // Чтение файла
@@ -102,6 +114,19 @@ func fromFile() -> [String] {
 	}
 	
 	return arr
+}
+
+func moneyFromFile() -> Double {
+	var money: String = ""
+	if let dir = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask).first {
+		let fileURL = dir.appendingPathComponent("PlayerMoney.sosal")
+		
+		if let savedText = try? String(contentsOf: fileURL, encoding: .utf8) {
+			money = savedText
+		}
+	}
+	
+	return Double(money) ?? 0.0
 }
 
 func view(_ A: [[String]],_ x: Int,_ y: Int) {
