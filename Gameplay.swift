@@ -7,6 +7,19 @@
 
 import Foundation
 
+let defaultItemScore = 0.2
+let itemsScores: [String:Double] = [
+	"Ржавый меч": 1.0,
+	"Ржавая броня": 2.0,
+	"Маленький мешок с монетами": 3.0,
+	"Средний мешок с монетами": 5.0,
+	"Большой мешок с монетами": 8.0,
+	"Почти новый меч": 10.0,
+	"Почти новая броня": 13.0,
+	"Золото": 20.0,
+	"Чьи-то кости": 0.1
+] 
+
 func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inFight,_ inf: infinityMode) -> Bool {
 	
 	// Генерируем подземелье
@@ -101,6 +114,8 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 		}
 		
 		if (input == wKey) && (A[x-1][y] == "E") {
+			// Очистка памяти
+			freeMaze(dungeon)
 			return true
 		}
 		
@@ -160,5 +175,7 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 		}
 		else {A = iE}
 	}
+	// Очистка памяти
+	freeMaze(dungeon)
 	return false
 }

@@ -68,7 +68,7 @@ class inFight {
 		
 		if Int(input)! != belt.count+1 {
 			returnText = belt[Int(input)! - 1]
-			inv.deleteItem(fromBelt: Int32(input)! - 1)
+			inv.deleteItem(fromBelt: Int32(input)!)
 		}
 		
 		return returnText

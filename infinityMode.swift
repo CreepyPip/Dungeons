@@ -10,9 +10,7 @@ import Foundation
 class infinityMode {
 	private(set) var level = -1
 	
-	private let defaultItemScore = 0.2
-	
-	private let itemsScores: [String:Double] = [
+	let itemsScores: [String:Double] = [
 		"Ржавый меч": 1.0,
 		"Ржавая броня": 2.0,
 		"Маленький мешок с монетами": 3.0,

@@ -28,7 +28,8 @@ while(game) {
 	print("3. Бесконечный режим")
 	print("4. Открыть свой сундук")
 	print("5. Торговец")
-	print("6. Закрыть игру")
+	print("6. Посмотреть рекорды в бесконечном режиме")
+	print("7. Закрыть игру")
 	
 	let answer = readLine()!
 	let continueGame = "1"
@@ -36,6 +37,7 @@ while(game) {
 	let noEndGame = "3"
 	let openChest = "4"
 	let dealerInput = "5"
+	let records = "6"
 	var typeGame = true
 	let inf = infinityMode()
 	
@@ -69,13 +71,17 @@ while(game) {
 		case dealerInput:
 			dealer(inv)
 			continue
-			
+		case records:
+			let records = fromFileRecord()
+			for i in 0..<records.count {print(records[i])}
 		default:
 			game = false
 			break
 	}
 	
 	var exit = false 
+	
+	let invIG = InventoryBridge()
 	
 	if (game2) {
 		let fight = inFight()
@@ -85,7 +91,15 @@ while(game) {
 			var infExit = true
 			
 			while(infExit) {
-				infExit = playingField(width, height, inv, fight, inf)
+				clearScreen()
+				let infModeItems = randomItemInfMode()
+				print("Вы получили:")
+				for i in 0..<infModeItems.count {
+					print(infModeItems[i])
+					invIG.inBelt(infModeItems[i])
+				}
+				Thread.sleep(forTimeInterval: 1.5)
+				infExit = playingField(width, height, invIG, fight, inf)
 				inf.levelPlus()
 			}
 		}
@@ -93,15 +107,21 @@ while(game) {
 		clearScreen()
 		
 		if !typeGame {
-			print("Вы прошли \(inf.level) этажей")
-			print("И получили \(inf.score(inv.outBag())) очков")
+			let sc = inf.score(invIG.outBag())
+			let ls = inf.level
+			print("Вы получили \(sc) очков")
+			print("И прошли \(ls) этажей: +\(ls*10) очков")
+			print("В целом \(Double(ls*10) + sc) очков")
+			print("\nВведите имя")
+			let name = readLine() ?? "."
+			inFileRecord((Double(ls*10) + sc), name)
 		}
 		if(exit){
 			print("Вы дошли до конца")
 			// Вывод собранного на экран, запись в сундук игрока и очистка сумки
 			print("Вы собрали за забег:")
 			let arrBag = inv.outBag()!
-			inFile(arrBag, moneyFromFile())
+			inFile(arrBag, inv.getMoney())
 			if !arrBag.isEmpty {
 				for i in 0..<arrBag.count {
 					inv.inChest(arrBag[i])
@@ -113,8 +133,6 @@ while(game) {
 		inv.freeBag()
 		// Отключение режима "без проверки"
 		disableRawMode()
-		// Очистка памяти
-		//freeMaze(dungeon)
 		game2 = false
 			
 	}

@@ -52,9 +52,10 @@ func dealer(_ inv: InventoryBridge) {
 				
 				if Int(inp) != nil {
 					if Int(inp)! - 1 >= 0 && Int(inp)! - 1 < chest.count {
+						inv.addMoney(itemsScores[chest[Int(inp)! - 1]] ?? defaultItemScore)
 						inv.deleteItem(fromChest: Int32(inp)!)
 						freeFile()
-						inFile(inv.outChest(), moneyFromFile())
+						inFile(inv.outChest(), inv.getMoney())
 					}
 				}else {break}
 			}

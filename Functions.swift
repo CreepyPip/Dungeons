@@ -67,13 +67,8 @@ func randomItems() -> String {
 func freeFile() {
 	let nothing = ""
 	
-	var url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
+	let url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
 		.appendingPathComponent("PlayerChest.sosal")
-	
-	try? nothing.write(to: url, atomically: true, encoding: .utf8)
-	
-	url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
-		.appendingPathComponent("PlayerMoney.sosal")
 	
 	try? nothing.write(to: url, atomically: true, encoding: .utf8)
 }
@@ -95,6 +90,10 @@ func inFile(_ arr: [String],_ money: Double) {
 	
 	let url2 = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
 		.appendingPathComponent("PlayerMoney.sosal")
+	
+	
+	let nothing = ""
+	try? nothing.write(to: url2, atomically: true, encoding: .utf8)
 	
 	let fileMoney = try? FileHandle(forWritingTo: url2)
 	defer { fileMoney?.closeFile() }
@@ -222,4 +221,87 @@ func fromFileBelt() -> [String] {
 	}
 	
 	return arr2
+}
+
+
+
+func randomItemInfMode() -> [String] {
+	let poisons: [String] = ["Зелье скрытности", "Зелье здоровья", "Зелье защиты", "Зелье силы"]
+	var returnPoisons: [String] = []
+	
+	let count = Int.random(in: 0..<3)
+	for _ in 0...count {
+		returnPoisons.append(poisons[Int.random(in: 0..<4)])
+	}
+	
+	return returnPoisons
+}
+
+// Чтение файла
+func fromFileRecord() -> [String] {
+	var arr: [String] = []
+	if let dir = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask).first {
+		let fileURL = dir.appendingPathComponent("PlayersRecords.sosal")
+		
+		if let savedText = try? String(contentsOf: fileURL, encoding: .utf8) {
+			arr = savedText.components(separatedBy: "\n")
+		}
+	}
+	
+	
+	var arr2: [String] = []
+	
+	for i in 0..<arr.count {
+		if arr[i] != "" {arr2.append(arr[i])}
+	}
+	
+	return arr2
+}
+
+func inFileRecord(_ score: Double,_ name: String) {
+	let scoreInFile = String(score) + " " + name
+	let nothing = ""
+	var arr: [String] = []
+	let dir = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
+		.appendingPathComponent("PlayersRecords.sosal")
+	
+	if let savedText = try? String(contentsOf: dir, encoding: .utf8) {
+		arr = savedText.components(separatedBy: "\n")
+	}
+	
+	
+	var arr2: [String] = []
+	var count = 0
+	
+	for i in 0..<arr.count {
+		if arr[i] != "" {
+			let numberString = arr[i].filter { $0.isNumber }
+			let number = Double(numberString)!
+			
+			if number < score {
+				arr2.append(arr[i] + "\n")
+				count += 1
+			} else {
+				break
+			}
+		}
+	}
+	
+	arr2.append(scoreInFile + "\n")
+	
+	for i in count..<arr.count {
+		if arr[i] != "" {
+			arr2.append(arr[i] + "\n")
+		}
+	}
+	
+	try? nothing.write(to: dir, atomically: true, encoding: .utf8)
+	
+	for i in 0..<arr2.count {
+		let fileMoney = try? FileHandle(forWritingTo: dir)
+		defer { fileMoney?.closeFile() }
+		fileMoney?.seekToEndOfFile()
+		fileMoney?.write(arr2[i].data(using: .utf8)!)
+	}
+	
 }
