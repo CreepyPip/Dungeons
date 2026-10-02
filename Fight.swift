@@ -32,11 +32,11 @@ class inFight {
 		}
 	}
 	
-	func startBattle(_ AA: [[String]],_ x: Int,_ y: Int,_ inv: InventoryBridge) -> [[String]] {
+	func startBattle(_ AA: [[String]],_ x: Int,_ y: Int,_ inv: InventoryBridge,_ typeGame: Bool) -> [[String]] {
 		var A = AA
 		
 		disableRawMode()
-		let ff = fighting(inv)
+		let ff = fighting(inv, typeGame)
 		enableRawMode()
 		if ff == false {
 			return [["False"]]
@@ -50,7 +50,7 @@ class inFight {
 		return A
 	}
 	
-	private func inventoryInFight(_ inv: InventoryBridge) -> String {
+	private func inventoryInFight(_ inv: InventoryBridge,_ inf: Bool) -> String {
 		var returnText = ""
 		let belt = inv.outBelt()!
 		if !belt.isEmpty{
@@ -74,7 +74,7 @@ class inFight {
 		return returnText
 	}
 	
-	private func fighting(_ inv: InventoryBridge) -> Bool {
+	private func fighting(_ inv: InventoryBridge,_ typeGame: Bool) -> Bool {
 		var hpBot = 30
 		var blow = false
 		let minDamageFromBot = 0
@@ -110,17 +110,21 @@ class inFight {
 						Thread.sleep(forTimeInterval: 1.0)
 						break
 					case rfHitInput:
+						print("Вы концентрируетесь")
+						Thread.sleep(forTimeInterval: 0.5)
 						blow = true
 						break
 					case inventory:
 						clearScreen()
-						let itemFromBelt = inventoryInFight(inv)
+						let itemFromBelt = inventoryInFight(inv, typeGame)
 						clearScreen()
 						let poisons: [String] = ["Зелье скрытности", "Зелье здоровья", "Зелье защиты", "Зелье силы"]
 						
 						switch itemFromBelt {
 							case poisons[0]:
 								print("Побег")
+								freeFileBelt()
+								inFileBelt(inv.outBelt(), inv.getMoney())
 								Thread.sleep(forTimeInterval: 1.5)
 								return true
 							case poisons[1]:
@@ -139,8 +143,10 @@ class inFight {
 							default:
 								continue
 						}
-					freeFileBelt()
-					inFileBelt(inv.outBelt(), inv.getMoney())
+						if typeGame {
+							freeFileBelt()
+							inFileBelt(inv.outBelt(), inv.getMoney())
+						}
 						
 					default:
 						let escape = Int.random(in: 0..<30)

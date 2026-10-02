@@ -73,7 +73,9 @@ while(game) {
 			continue
 		case records:
 			let records = fromFileRecord()
+			print("")
 			for i in 0..<records.count {print(records[i])}
+			print("")
 		default:
 			game = false
 			break
@@ -86,7 +88,7 @@ while(game) {
 	if (game2) {
 		let fight = inFight()
 		if typeGame {
-			exit = playingField(width, height, inv, fight, inf)
+			exit = playingField(width, height, inv, fight, inf, typeGame)
 		} else {
 			var infExit = true
 			
@@ -99,7 +101,7 @@ while(game) {
 					invIG.inBelt(infModeItems[i])
 				}
 				Thread.sleep(forTimeInterval: 1.5)
-				infExit = playingField(width, height, invIG, fight, inf)
+				infExit = playingField(width, height, invIG, fight, inf, typeGame)
 				inf.levelPlus()
 			}
 		}

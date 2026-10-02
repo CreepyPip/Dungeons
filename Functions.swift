@@ -181,7 +181,7 @@ func freeFileBelt() {
 // Запись в файл
 func inFileBelt(_ arr: [String],_ money: Double) {
 	var arra = arr
-	if arra[arra.count-1] != "" {arra.append("")}
+	if !arra.isEmpty{ if arra[arra.count-1] != "" {arra.append("")}}
 	let text = arra.joined(separator: "\n")
 	let moneyS = String(money)
 	
