@@ -9,7 +9,7 @@ import Foundation
 
 func enemyMove(_ A: [[String]],_ x: Int,_ y: Int) -> [Int] {
 		if (A[x+1][y] == "@" || A[x-1][y] == "@" || A[x][y+1] == "@" || A[x][y-1] == "@") &&
-			(Int.random(in: 0..<2)==1) {
+			(Int.random(in: 0..<20)<=15) {
 			return [11111]
 			
 		}
@@ -50,7 +50,7 @@ func enemyMove(_ A: [[String]],_ x: Int,_ y: Int) -> [Int] {
 		
 		for i in xh..<xl {
 			for j in yl..<yr {
-				if A[i][j] == "&" {
+				if A[i][j] == enemyType {
 					let em = enemyMove(A, i, j)
 					if !em.isEmpty {
 						if em[0] == 11111 {
@@ -58,7 +58,7 @@ func enemyMove(_ A: [[String]],_ x: Int,_ y: Int) -> [Int] {
 							return ret
 						} else {
 							B[i][j] = " "
-							B[em[0]][em[1]] = "&"
+							B[em[0]][em[1]] = enemyType
 						}
 					}
 				}

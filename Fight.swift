@@ -19,7 +19,7 @@ class inFight {
 					print("#", terminator: " ")
 				} else
 				if (i == 3) && (j == 4) {
-					print("&", terminator: " ")
+					print(enemyType, terminator: " ")
 				} else
 				if (i == 5) && (j == 4) {
 					print("@", terminator: " ")
@@ -118,24 +118,30 @@ class inFight {
 						clearScreen()
 						let itemFromBelt = inventoryInFight(inv, typeGame)
 						clearScreen()
-						let poisons: [String] = ["Зелье скрытности", "Зелье здоровья", "Зелье защиты", "Зелье силы"]
 						
 						switch itemFromBelt {
 							case poisons[0]:
 								print("Побег")
-								freeFileBelt()
-								inFileBelt(inv.outBelt(), inv.getMoney())
+								if typeGame {
+									freeFileBelt()
+									inFileBelt(inv.outBelt(), inv.getMoney())
+								}
 								Thread.sleep(forTimeInterval: 1.5)
 								return true
-							case poisons[1]:
+							case poisons[1]: 
+								print("Ты сконцентрировался")
+								Thread.sleep(forTimeInterval: 1.0)
+								blow = true
+								continue
+							case poisons[2]:
 								print("Лечение")
 								Thread.sleep(forTimeInterval: 1.0)
 								hpPlayer += Int.random(in: 15...40)
-							case poisons[2]:
+							case poisons[3]:
 								print("Повышение защиты")
 								Thread.sleep(forTimeInterval: 1.0)
 								maxDamageFromBot = 8
-							case poisons[3]:
+							case poisons[4]:
 								print("Повышение силы")
 								Thread.sleep(forTimeInterval: 1.0)
 								minDamage = 5

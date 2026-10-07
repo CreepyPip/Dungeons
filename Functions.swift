@@ -76,7 +76,7 @@ func freeFile() {
 // Запись в файл
 func inFile(_ arr: [String],_ money: Double) {
 	var arra = arr
-	if arra[arra.count-1] != "" {arra.append("")}
+	if !arra.isEmpty{ if arra[arra.count-1] != "" {arra.append("")}}
 	let text = arra.joined(separator: "\n")
 	let moneyS = String(money)
 	
@@ -226,7 +226,6 @@ func fromFileBelt() -> [String] {
 
 
 func randomItemInfMode() -> [String] {
-	let poisons: [String] = ["Зелье скрытности", "Зелье здоровья", "Зелье защиты", "Зелье силы"]
 	var returnPoisons: [String] = []
 	
 	let count = Int.random(in: 0..<3)
@@ -275,14 +274,16 @@ func inFileRecord(_ score: Double,_ name: String) {
 	
 	for i in 0..<arr.count {
 		if arr[i] != "" {
-			let numberString = arr[i].filter { $0.isNumber }
-			let number = Double(numberString)!
-			
-			if number < score {
-				arr2.append(arr[i] + "\n")
-				count += 1
-			} else {
-				break
+			if let spaceIndex = arr[i].firstIndex(of: " ") {
+				let numberString = String(arr[i][arr[i].startIndex..<spaceIndex])
+				let number = Double(numberString) ?? 0.0
+				
+				if number > score {
+					arr2.append(arr[i])
+					count += 1
+				} else {
+					break
+				}
 			}
 		}
 	}
@@ -304,4 +305,8 @@ func inFileRecord(_ score: Double,_ name: String) {
 		fileMoney?.write(arr2[i].data(using: .utf8)!)
 	}
 	
+}
+
+func custom() -> String {
+	return ""
 }

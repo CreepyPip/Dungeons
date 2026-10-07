@@ -61,8 +61,7 @@ func dealer(_ inv: InventoryBridge) {
 			}
 		case buy:
 			while (true) {
-				let poisons: [String] = ["Зелье скрытности", "Зелье здоровья", "Зелье защиты", "Зелье силы"]
-				let poisonsPrice: [Double] = [15, 8, 5, 5]
+				
 				for i in 0..<poisons.count {
 					print(i+1, ".", poisons[i], "(\(poisonsPrice[i]))")
 				}

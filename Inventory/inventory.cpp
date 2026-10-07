@@ -56,11 +56,11 @@ double Inventory::GetMoney() {
 };
 
 void Inventory::AddMoney(double new_money) {
-	money += new_money;
+	money += round(new_money * 100.0) / 100.0;
 };
 
 void Inventory::PutMoney(double putting) {
-	money -= putting;
+	money -= round(putting * 100.0) / 100.0;
 };
 
 void Inventory::InBelt(std::string object) {

@@ -18,7 +18,20 @@ let itemsScores: [String:Double] = [
 	"Почти новая броня": 13.0,
 	"Золото": 20.0,
 	"Чьи-то кости": 0.1
-] 
+]
+
+class color {
+	static let red = "\u{001B}[0;31m"
+	static let reset = "\u{001B}[0;0m"
+	static let green = "\u{001B}[0;32m"
+	static var playerColor = reset
+}
+
+let enemyType = "\(color.red)&\(color.reset)"
+let chestType = "\(color.green)?\(color.reset)"
+
+let poisons: [String] = ["Зелье скрытности", "Зелье концентрации", "Зелье здоровья", "Зелье защиты", "Зелье силы"]
+let poisonsPrice: [Double] = [15, 2, 8, 5, 5]
 
 func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inFight,_ inf: infinityMode,_ typeGame: Bool) -> Bool {
 	
@@ -47,9 +60,9 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 				case 69:
 					microArr.append("E")
 				case 63:
-					microArr.append("?")
+					microArr.append(chestType)
 				case 38:
-					microArr.append("&")
+					microArr.append(enemyType)
 				default:
 					microArr.append(" ")
 			}
@@ -103,8 +116,8 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 			input = getchar()
 		} while (input != wKey && input != aKey && input != sKey && input != dKey && input != eKey)
 		
-		if (input == wKey && A[x-1][y] == "&") || (input == aKey && A[x][y-1] == "&") || 
-			(input == sKey && A[x+1][y] == "&") || (input == dKey && A[x][y+1] == "&") {
+		if (input == wKey && A[x-1][y] == enemyType) || (input == aKey && A[x][y-1] == enemyType) || 
+			(input == sKey && A[x+1][y] == enemyType) || (input == dKey && A[x][y+1] == enemyType) {
 			let AA = fight.startBattle(A, x, y, inv, typeGame)
 			if AA[0][0] != "False" {
 				A = AA
@@ -144,20 +157,22 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 		}
 		
 		// Сундуки
-		if (input == eKey) && (A[x][y+1] == "?" || A[x][y-1] == "?" || A[x+1][y] == "?" || A[x-1][y] == "?") {
-			if A[x][y+1] == "?" {
+		if (input == eKey) && (A[x][y+1] == chestType || 
+			A[x][y-1] == chestType || A[x+1][y] == chestType || 
+			A[x-1][y] == chestType) {
+			if A[x][y+1] == chestType {
 				A[x][y+1] = " "
 				outputItems.append(randomItems())
 			}
-			if A[x][y-1] == "?" {
+			if A[x][y-1] == chestType {
 				A[x][y-1] = " "
 				outputItems.append(randomItems())
 			}
-			if A[x+1][y] == "?" {
+			if A[x+1][y] == chestType {
 				A[x+1][y] = " "
 				outputItems.append(randomItems())
 			}
-			if A[x-1][y] == "?" {
+			if A[x-1][y] == chestType {
 				A[x-1][y] = " "
 				outputItems.append(randomItems())
 			}

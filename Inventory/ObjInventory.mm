@@ -62,7 +62,7 @@
 }
 
 - (double)GetMoney {
-	return _cppInventory -> GetMoney();
+	return round(_cppInventory -> GetMoney()*10)/10;
 }
 
 - (void)AddMoney:(double) newMoney {
