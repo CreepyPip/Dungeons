@@ -31,13 +31,12 @@ let enemyType = "\(color.red)&\(color.reset)"
 let chestType = "\(color.green)?\(color.reset)"
 
 let poisons: [String] = ["Зелье скрытности", "Зелье концентрации", "Зелье здоровья", "Зелье защиты", "Зелье силы"]
-let poisonsPrice: [Double] = [15, 2, 8, 5, 5]
+let poisonsPrice: [Double] = [45, 15, 30, 22, 18]
 
 func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inFight,_ inf: infinityMode,_ typeGame: Bool) -> Bool {
 	
 	// Генерируем подземелье
 	let dungeon = generateDungeon(Int32(width), Int32(height), 30)
-	
 	
 	// Массив для удобного хранения подземелья
 	var A: [[String]] = []
@@ -82,7 +81,7 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 	while(inGame){
 		clearScreen() // Чистим экран при каждой иттерации
 		
-		view(A, x, y)
+		view(A, x, y, width, height)
 		
 		// Отображение собранного из сунуков
 		if !outputItems.isEmpty {
@@ -118,7 +117,7 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 		
 		if (input == wKey && A[x-1][y] == enemyType) || (input == aKey && A[x][y-1] == enemyType) || 
 			(input == sKey && A[x+1][y] == enemyType) || (input == dKey && A[x][y+1] == enemyType) {
-			let AA = fight.startBattle(A, x, y, inv, typeGame)
+			let AA = fight.startBattle(A, x, y, inv, typeGame, width, height)
 			if AA[0][0] != "False" {
 				A = AA
 			} else {
@@ -179,9 +178,9 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 			itemsCount = 0
 		}
 		
-		let iE = ifEnemy(A, x, y)
+		let iE = ifEnemy(A, x, y, width, height)
 		if iE[0][0] == "fight"{
-			let AA = fight.startBattle(A, x, y, inv, typeGame)
+			let AA = fight.startBattle(A, x, y, inv, typeGame, width, height)
 			if AA[0][0] != "False" {
 				A = AA
 			} else {

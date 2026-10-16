@@ -92,13 +92,7 @@ func inFile(_ arr: [String],_ money: Double) {
 		.appendingPathComponent("PlayerMoney.sosal")
 	
 	
-	let nothing = ""
-	try? nothing.write(to: url2, atomically: true, encoding: .utf8)
-	
-	let fileMoney = try? FileHandle(forWritingTo: url2)
-	defer { fileMoney?.closeFile() }
-	fileMoney?.seekToEndOfFile()
-	fileMoney?.write(moneyS.data(using: .utf8)!)
+	try? moneyS.write(to: url2, atomically: true, encoding: .utf8)
 }
 
 // Чтение файла
@@ -134,7 +128,7 @@ func moneyFromFile() -> Double {
 	return Double(money) ?? 0.0
 }
 
-func view(_ A: [[String]],_ x: Int,_ y: Int) {
+func view(_ A: [[String]],_ x: Int,_ y: Int,_ width: Int,_ height: Int) {
 	// Переменные для границ экрана
 	var xh = x-10
 	var xl = x+10
@@ -145,13 +139,13 @@ func view(_ A: [[String]],_ x: Int,_ y: Int) {
 	while (xh < 0) {
 		xh += 1
 	}
-	while (xl > 200) {
+	while (xl > height) {
 		xl -= 1
 	}
 	while (yl < 0) {
 		yl += 1
 	}
-	while (yr > 100) {
+	while (yr > width) {
 		yr -= 1
 	}
 	
@@ -196,10 +190,7 @@ func inFileBelt(_ arr: [String],_ money: Double) {
 	let url2 = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
 		.appendingPathComponent("PlayerMoney.sosal")
 	
-	let fileMoney = try? FileHandle(forWritingTo: url2)
-	defer { fileMoney?.closeFile() }
-	fileMoney?.seekToEndOfFile()
-	fileMoney?.write(moneyS.data(using: .utf8)!)
+	try? moneyS.write(to: url2, atomically: true, encoding: .utf8)
 }
 
 // Чтение файла
@@ -223,7 +214,26 @@ func fromFileBelt() -> [String] {
 	return arr2
 }
 
+func floorInFile(_ floor: Double) {
+	let url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
+		.appendingPathComponent("PlayerFloor.sosal")
+	
+	let floorString = "\(floor)"
+	try? floorString.write(to: url, atomically: true, encoding: .utf8)
+}
 
+func floorFromFile() -> Double {
+	var floor: String = ""
+	if let dir = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask).first {
+		let fileURL = dir.appendingPathComponent("PlayerFloor.sosal")
+		
+		if let savedText = try? String(contentsOf: fileURL, encoding: .utf8) {
+			floor = savedText
+		}
+	}
+	
+	return Double(floor) ?? 1.0
+}
 
 func randomItemInfMode() -> [String] {
 	var returnPoisons: [String] = []
@@ -259,7 +269,6 @@ func fromFileRecord() -> [String] {
 
 func inFileRecord(_ score: Double,_ name: String) {
 	let scoreInFile = String(score) + " " + name
-	let nothing = ""
 	var arr: [String] = []
 	let dir = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
 		.appendingPathComponent("PlayersRecords.sosal")
@@ -288,22 +297,16 @@ func inFileRecord(_ score: Double,_ name: String) {
 		}
 	}
 	
-	arr2.append(scoreInFile + "\n")
+	arr2.append(scoreInFile)
 	
 	for i in count..<arr.count {
 		if arr[i] != "" {
-			arr2.append(arr[i] + "\n")
+			arr2.append(arr[i])
 		}
 	}
 	
-	try? nothing.write(to: dir, atomically: true, encoding: .utf8)
-	
-	for i in 0..<arr2.count {
-		let fileMoney = try? FileHandle(forWritingTo: dir)
-		defer { fileMoney?.closeFile() }
-		fileMoney?.seekToEndOfFile()
-		fileMoney?.write(arr2[i].data(using: .utf8)!)
-	}
+	let finalText = arr2.joined(separator: "\n")
+	try? finalText.write(to: dir, atomically: true, encoding: .utf8)
 	
 }
 

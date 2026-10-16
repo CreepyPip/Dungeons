@@ -28,7 +28,7 @@ func enemyMove(_ A: [[String]],_ x: Int,_ y: Int) -> [Int] {
 		return []
 	}
 	
-	func ifEnemy(_ A: [[String]],_ x: Int,_ y: Int) -> [[String]] {
+	func ifEnemy(_ A: [[String]],_ x: Int,_ y: Int,_ width: Int,_ height: Int) -> [[String]] {
 		var B = A
 		var xh = x-10
 		var xl = x+10
@@ -38,13 +38,13 @@ func enemyMove(_ A: [[String]],_ x: Int,_ y: Int) -> [Int] {
 		while (xh < 0) {
 			xh += 1
 		}
-		while (xl > 200) {
+		while (xl > height) {
 			xl -= 1
 		}
 		while (yl < 0) {
 			yl += 1
 		}
-		while (yr > 100) {
+		while (yr > width) {
 			yr -= 1
 		}
 		

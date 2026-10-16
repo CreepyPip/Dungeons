@@ -11,14 +11,16 @@ import Darwin
 // Задаётся возможность использовать rand()
 randomActive()
 // Переменные размеров карты(возможно добавлю сложность)
-let height = 200
-let width = 100
+var height = 200
+var width = 100
 // булевые для работы игры
 var game = true
 var game2 = false
+var floor = 1.0
 
 // Цикл работы UX
 while(game) {
+	//clearScreen()
 	// Создаётся объект
 	let inv = InventoryBridge()
 	
@@ -29,6 +31,7 @@ while(game) {
 	print("4. Открыть свой сундук")
 	print("5. Торговец")
 	print("6. Посмотреть рекорды в бесконечном режиме")
+	//print("7. Кастомизация")
 	print("7. Закрыть игру")
 	
 	let answer = readLine()!
@@ -38,6 +41,7 @@ while(game) {
 	let openChest = "4"
 	let dealerInput = "5"
 	let records = "6"
+	let customisation = "777777qweqweuuiuui"
 	var typeGame = true
 	let inf = infinityMode()
 	
@@ -48,6 +52,8 @@ while(game) {
 			let arrFromFile = fromFile() // Запись из файла в переменную
 			let itemsInBelt = fromFileBelt()
 			inv.addMoney(moneyFromFile())
+			floor = floorFromFile()
+			if floor > 7 {floor = 1}
 			for i in 0..<itemsInBelt.count {inv.inBelt(itemsInBelt[i])}
 			
 			// Запись в сундук
@@ -57,6 +63,10 @@ while(game) {
 			game2 = true
 		case newGame:
 			freeFile() // Очистка файла
+			inFileBelt([], 0.0)
+			floorInFile(1)
+			// как же я насрал в работе с файлами
+			// надо будет это переписать
 			game2 = true
 		case openChest:
 			let arrFromFile = fromFile() // Проверяем из файла
@@ -76,6 +86,8 @@ while(game) {
 			print("")
 			for i in 0..<records.count {print(records[i])}
 			print("")
+		case customisation:
+			break
 		default:
 			game = false
 			break
@@ -88,6 +100,13 @@ while(game) {
 	if (game2) {
 		let fight = inFight()
 		if typeGame {
+			let dHeight = Double(height)
+			let dWidth = Double(width)
+			height = Int(0.25 * (floor - 1) * dHeight) + height
+			width = Int(0.25 * (floor - 1) * dWidth) + width
+			clearScreen()
+			print("Этаж \(Int(floor))")
+			Thread.sleep(forTimeInterval: 1.5)
 			exit = playingField(width, height, inv, fight, inf, typeGame)
 		} else {
 			var infExit = true
@@ -102,6 +121,7 @@ while(game) {
 				}
 				Thread.sleep(forTimeInterval: 1.5)
 				infExit = playingField(width, height, invIG, fight, inf, typeGame)
+				disableRawMode()
 				inf.levelPlus()
 			}
 		}
@@ -115,7 +135,7 @@ while(game) {
 			print("И прошли \(ls) этажей: +\(ls*10) очков")
 			print("В целом \(Double(ls*10) + sc) очков")
 			print("\nВведите имя")
-			let name = readLine() ?? "."
+			let name = readLine() ?? "noname"
 			inFileRecord((Double(ls*10) + sc), name)
 		}
 		if(exit){
@@ -130,8 +150,17 @@ while(game) {
 					print(arrBag[i])
 				}
 			}
-		}
+			Thread.sleep(forTimeInterval: 1.5)
+			clearScreen()
+			if floor == 7 {
+				print("Вы прошли подземелье")
+				Thread.sleep(forTimeInterval: 2.5)
+				floor = 0
+			}
+			floor += 1
+		} else {floor = 1}
 		
+		floorInFile(floor)
 		inv.freeBag()
 		// Отключение режима "без проверки"
 		disableRawMode()

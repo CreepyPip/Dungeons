@@ -8,7 +8,7 @@
 #include "generate.h"
 
 char* generateMaze(int width, int height, int density) {
-	
+	density = (int)((100.0/(double)width) * (double)density);
 	char* A = malloc(width * height * sizeof(char));
 	if (A == NULL) return NULL;
 	
@@ -30,7 +30,7 @@ char* generateMaze(int width, int height, int density) {
 	// Точка идёт в массив
 	points[0] = b + width;
 	// Точка входа
-	b = width * height - (rand() % (width-2));
+	b = width * height - 1 - (rand() % (width-2));
 	// Вход
 	A[b] = 'S';
 	

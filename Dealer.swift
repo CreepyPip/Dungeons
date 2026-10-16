@@ -23,6 +23,7 @@ func dealer(_ inv: InventoryBridge) {
 			inv.inBelt(belt[i])
 		}
 	}
+	clearScreen()
 	if inv.getMoney() == 0.0 {inv.addMoney(moneyFromFile())}
 	print("У вас на счету \(inv.getMoney()) \n")
 	
@@ -41,6 +42,7 @@ func dealer(_ inv: InventoryBridge) {
 	switch input {
 		case sell:
 			while (true) {
+				clearScreen()
 				chest = inv.outChest()
 				if !chest.isEmpty {
 					for i in 0..<chest.count {
@@ -61,7 +63,7 @@ func dealer(_ inv: InventoryBridge) {
 			}
 		case buy:
 			while (true) {
-				
+				clearScreen()
 				for i in 0..<poisons.count {
 					print(i+1, ".", poisons[i], "(\(poisonsPrice[i]))")
 				}

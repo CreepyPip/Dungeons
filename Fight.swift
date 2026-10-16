@@ -32,7 +32,7 @@ class inFight {
 		}
 	}
 	
-	func startBattle(_ AA: [[String]],_ x: Int,_ y: Int,_ inv: InventoryBridge,_ typeGame: Bool) -> [[String]] {
+	func startBattle(_ AA: [[String]],_ x: Int,_ y: Int,_ inv: InventoryBridge,_ typeGame: Bool,_ width: Int,_ height: Int) -> [[String]] {
 		var A = AA
 		
 		disableRawMode()
@@ -45,7 +45,7 @@ class inFight {
 			if (x - 1 != 0) { A[x - 1][y] = " " }
 			if (y + 1 != width-1) { A[x][y + 1] = " " }
 			if (y - 1 != 0) { A[x][y - 1] = " " }
-			view(A, x, y)
+			view(A, x, y, width, height)
 		}
 		return A
 	}
@@ -140,12 +140,12 @@ class inFight {
 							case poisons[3]:
 								print("Повышение защиты")
 								Thread.sleep(forTimeInterval: 1.0)
-								maxDamageFromBot = 8
+								maxDamageFromBot -= 8
 							case poisons[4]:
 								print("Повышение силы")
 								Thread.sleep(forTimeInterval: 1.0)
-								minDamage = 5
-								maxDamage = 25
+								minDamage += 5
+								maxDamage += 25
 							default:
 								continue
 						}
