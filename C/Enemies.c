@@ -14,7 +14,7 @@ char* generateDungeon(int width, int height, int density) {
 	for (int i = 1; i < height; i++) {
 		for (int j = 1; j < width; j++) {
 			int index = i*width+j;
-			if (width == 250 && A[index-width] == 'E') {
+			if (width == 200 && A[index-width] == 'E') {
 				A[index] = '$';
 			} else 
 			if (A[index] != '#' && A[index] != '?' && A[index] != 'E' && A[index] != 'S' && rand() % 100 < enemyChance) {
