@@ -78,6 +78,9 @@ func dealer(_ inv: InventoryBridge) {
 							inv.inBelt(poisons[Int(inp)!-1])
 							freeFileBelt()
 							inFileBelt(inv.outBelt(), inv.getMoney())
+						} else {
+							print("Покупка не удалась")
+							Thread.sleep(forTimeInterval: 1.0)
 						}
 					}
 				}else {break}

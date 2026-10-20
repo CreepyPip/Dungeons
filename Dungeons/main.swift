@@ -10,9 +10,9 @@ import Darwin
 
 // Задаётся возможность использовать rand()
 randomActive()
-// Переменные размеров карты(возможно добавлю сложность)
-var height = 200
-var width = 100
+// Переменные размеров карты
+let width = 80
+let height = width * 2
 // булевые для работы игры
 var game = true
 var game2 = false
@@ -102,12 +102,12 @@ while(game) {
 		if typeGame {
 			let dHeight = Double(height)
 			let dWidth = Double(width)
-			height = Int(0.25 * (floor - 1) * dHeight) + height
-			width = Int(0.25 * (floor - 1) * dWidth) + width
+			let upHeight = Int(0.25 * (floor - 1) * dHeight) + height
+			let upWidth = Int(0.25 * (floor - 1) * dWidth) + width
 			clearScreen()
 			print("Этаж \(Int(floor))")
 			Thread.sleep(forTimeInterval: 1.5)
-			exit = playingField(width, height, inv, fight, inf, typeGame)
+			exit = playingField(upWidth, upHeight, inv, fight, inf, typeGame)
 		} else {
 			var infExit = true
 			
@@ -120,7 +120,7 @@ while(game) {
 					invIG.inBelt(infModeItems[i])
 				}
 				Thread.sleep(forTimeInterval: 1.5)
-				infExit = playingField(width, height, invIG, fight, inf, typeGame)
+				infExit = playingField(100, 200, invIG, fight, inf, typeGame)
 				disableRawMode()
 				inf.levelPlus()
 			}

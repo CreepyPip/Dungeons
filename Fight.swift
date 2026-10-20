@@ -32,11 +32,12 @@ class inFight {
 		}
 	}
 	
-	func startBattle(_ AA: [[String]],_ x: Int,_ y: Int,_ inv: InventoryBridge,_ typeGame: Bool,_ width: Int,_ height: Int) -> [[String]] {
+	func startBattle(_ AA: [[String]],_ x: Int,_ y: Int,_ inv: InventoryBridge,_ typeGame: Bool,_ width: Int,_ height: Int,_ boss: Bool) -> [[String]] {
 		var A = AA
-		
+		var hpBot = 30
+		if boss {hpBot = 80}
 		disableRawMode()
-		let ff = fighting(inv, typeGame)
+		let ff = fighting(inv, typeGame, hpBot)
 		enableRawMode()
 		if ff == false {
 			return [["False"]]
@@ -62,7 +63,7 @@ class inFight {
 		
 		var input = readLine()!
 		
-		while Int(input) == nil && (Int(input)! <= 0 || Int(input)! > belt.count) {
+		while Int(input) == nil && (Int(input)! <= 0 && Int(input)! > belt.count) {
 			input = readLine()!
 		}
 		
@@ -74,8 +75,8 @@ class inFight {
 		return returnText
 	}
 	
-	private func fighting(_ inv: InventoryBridge,_ typeGame: Bool) -> Bool {
-		var hpBot = 30
+	private func fighting(_ inv: InventoryBridge,_ typeGame: Bool,_ hp: Int) -> Bool {
+		var hpBot = hp
 		var blow = false
 		let minDamageFromBot = 0
 		var maxDamageFromBot = 15
@@ -121,13 +122,18 @@ class inFight {
 						
 						switch itemFromBelt {
 							case poisons[0]:
-								print("Побег")
-								if typeGame {
-									freeFileBelt()
-									inFileBelt(inv.outBelt(), inv.getMoney())
-								}
-								Thread.sleep(forTimeInterval: 1.5)
-								return true
+								if hp != 80 {
+									print("Побег")
+									if typeGame {
+										freeFileBelt()
+										inFileBelt(inv.outBelt(), inv.getMoney())
+									}
+									Thread.sleep(forTimeInterval: 1.5)
+									return true} else {
+										print("Зелье не помогло")
+										Thread.sleep(forTimeInterval: 1.0)
+										continue
+									}
 							case poisons[1]: 
 								print("Ты сконцентрировался")
 								Thread.sleep(forTimeInterval: 1.0)
@@ -140,12 +146,12 @@ class inFight {
 							case poisons[3]:
 								print("Повышение защиты")
 								Thread.sleep(forTimeInterval: 1.0)
-								maxDamageFromBot -= 8
+								maxDamageFromBot = 8
 							case poisons[4]:
 								print("Повышение силы")
 								Thread.sleep(forTimeInterval: 1.0)
-								minDamage += 5
-								maxDamage += 25
+								minDamage = 5
+								maxDamage = 40
 							default:
 								continue
 						}

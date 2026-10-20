@@ -78,7 +78,7 @@ func inFile(_ arr: [String],_ money: Double) {
 	var arra = arr
 	if !arra.isEmpty{ if arra[arra.count-1] != "" {arra.append("")}}
 	let text = arra.joined(separator: "\n")
-	let moneyS = String(money)
+	let moneyS = String(Int(money * 10))
 	
 	let url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
 		.appendingPathComponent("PlayerChest.sosal")
@@ -125,7 +125,7 @@ func moneyFromFile() -> Double {
 		}
 	}
 	
-	return Double(money) ?? 0.0
+	return (Double(money) ?? 0.0)/10
 }
 
 func view(_ A: [[String]],_ x: Int,_ y: Int,_ width: Int,_ height: Int) {
@@ -177,7 +177,7 @@ func inFileBelt(_ arr: [String],_ money: Double) {
 	var arra = arr
 	if !arra.isEmpty{ if arra[arra.count-1] != "" {arra.append("")}}
 	let text = arra.joined(separator: "\n")
-	let moneyS = String(money)
+	let moneyS = String(money * 10)
 	
 	let url = FileManager.default.urls(for: .autosavedInformationDirectory, in: .userDomainMask)[0]
 		.appendingPathComponent("PlayerBelt.sosal")

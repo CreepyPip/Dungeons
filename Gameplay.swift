@@ -22,12 +22,14 @@ let itemsScores: [String:Double] = [
 
 class color {
 	static let red = "\u{001B}[0;31m"
+	static let scarlet = "\u{001B}[0;91m"
 	static let reset = "\u{001B}[0;0m"
 	static let green = "\u{001B}[0;32m"
 	static var playerColor = reset
 }
 
 let enemyType = "\(color.red)&\(color.reset)"
+let bossType = "\(color.scarlet)&\(color.reset)"
 let chestType = "\(color.green)?\(color.reset)"
 
 let poisons: [String] = ["Зелье скрытности", "Зелье концентрации", "Зелье здоровья", "Зелье защиты", "Зелье силы"]
@@ -62,6 +64,8 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 					microArr.append(chestType)
 				case 38:
 					microArr.append(enemyType)
+				case 36:
+					microArr.append(bossType)
 				default:
 					microArr.append(" ")
 			}
@@ -102,7 +106,6 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 			outputItems.removeAll()
 		}
 		
-		
 		// Ввод пользователя
 		var input: Int32
 		let wKey = 119
@@ -117,7 +120,18 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 		
 		if (input == wKey && A[x-1][y] == enemyType) || (input == aKey && A[x][y-1] == enemyType) || 
 			(input == sKey && A[x+1][y] == enemyType) || (input == dKey && A[x][y+1] == enemyType) {
-			let AA = fight.startBattle(A, x, y, inv, typeGame, width, height)
+			let AA = fight.startBattle(A, x, y, inv, typeGame, width, height, false)
+			if AA[0][0] != "False" {
+				A = AA
+			} else {
+				inGame = false
+			}
+		} else if (input == wKey && A[x-1][y] == bossType) || (input == aKey && A[x][y-1] == bossType) || 
+					(input == sKey && A[x+1][y] == bossType) || (input == dKey && A[x][y+1] == bossType) {
+			clearScreen()
+			print("Босс")
+			Thread.sleep(forTimeInterval: 1.5)
+			let AA = fight.startBattle(A, x, y, inv, typeGame, width, height, true)
 			if AA[0][0] != "False" {
 				A = AA
 			} else {
@@ -180,7 +194,7 @@ func playingField(_ width: Int,_ height: Int,_ inv: InventoryBridge,_ fight: inF
 		
 		let iE = ifEnemy(A, x, y, width, height)
 		if iE[0][0] == "fight"{
-			let AA = fight.startBattle(A, x, y, inv, typeGame, width, height)
+			let AA = fight.startBattle(A, x, y, inv, typeGame, width, height, false)
 			if AA[0][0] != "False" {
 				A = AA
 			} else {
