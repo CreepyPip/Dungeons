@@ -30,7 +30,7 @@ char* generateMaze(int width, int height, int density) {
 	// Точка идёт в массив
 	points[0] = b + width;
 	// Точка входа
-	b = width * height - 1 - (rand() % (width-2));
+	b = width * height - 1 - ((rand() % (width-2))+1);
 	// Вход
 	A[b] = 'S';
 	
